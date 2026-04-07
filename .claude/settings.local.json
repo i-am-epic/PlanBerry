@@ -1,0 +1,9 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:www.sequel.co)",
+      "Bash(npx create-next-app@latest:*)",
+      "Bash(rm:*)"
+    ]
+  }
+}
