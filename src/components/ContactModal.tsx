@@ -65,7 +65,7 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
         },
       });
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open]);
 
   const handleBackdrop = useCallback(
@@ -433,7 +433,7 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
               </div>
 
               {/* Generic server / network error */}
-              {state.errors && state.errors.length > 0 && (
+              {Array.isArray(state.errors) && state.errors.length > 0 && (
                 <p
                   style={{
                     fontFamily: "var(--font-body)",
