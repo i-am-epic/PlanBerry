@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import BlueprintOverlay from "./BlueprintOverlay";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -453,9 +454,12 @@ export default function FloralArchScene() {
       ref={sectionRef}
       id="celebrations"
       className="relative overflow-hidden"
-      style={{ height: "100vh", minHeight: 600, background: "#080808" }}
+      style={{ height: "100dvh", minHeight: 600, background: "#080808" }}
     >
       <div ref={containerRef} className="absolute inset-0" />
+
+      {/* Hover-to-reveal blueprint overlay */}
+      <BlueprintOverlay />
 
       {/* Fade edges into site background */}
       <div

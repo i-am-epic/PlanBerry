@@ -106,6 +106,13 @@ body {
   padding-right: var(--pad-x);
 }
 
+/* ─── Perf: every section opts into containment + lazy layout ─── */
+.pb-section {
+  content-visibility: auto;
+  contain-intrinsic-size: 0 800px;
+  contain: layout paint style;
+}
+
 /* Centered section content: flex column, text-center, mx-auto children */
 .section-center {
   width: 100%;

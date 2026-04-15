@@ -6,14 +6,12 @@ import { gsap } from "gsap";
 export default function CustomCursor() {
   const wrapperRef = useRef<HTMLDivElement>(null);
   const turbInnerRef = useRef<SVGFETurbulenceElement>(null);
-  const turbOuterRef = useRef<SVGFETurbulenceElement>(null);
 
   const mouse = useRef({ x: -300, y: -300 });
   const pos = useRef({ x: -300, y: -300 });
   const vel = useRef({ x: 0, y: 0 });
   const prevMouse = useRef({ x: -300, y: -300 });
   const freqInner = useRef(0.008);
-  const freqOuter = useRef(0.005);
 
   useEffect(() => {
     const isTouch = window.matchMedia("(pointer: coarse)").matches;
@@ -42,9 +40,9 @@ export default function CustomCursor() {
     };
 
     const tick = () => {
-      // Smooth follow — slightly lagged for organic feel
-      pos.current.x += (mouse.current.x - pos.current.x) * 0.18;
-      pos.current.y += (mouse.current.y - pos.current.y) * 0.18;
+      // Near-1:1 tracking — tiny amount of smoothing so squish/rotation still reads
+      pos.current.x += (mouse.current.x - pos.current.x) * 0.55;
+      pos.current.y += (mouse.current.y - pos.current.y) * 0.55;
 
       const speed = Math.hypot(vel.current.x, vel.current.y);
 
@@ -116,7 +114,7 @@ export default function CustomCursor() {
         height: 72,
         marginLeft: -36,
         marginTop: -36,
-        mixBlendMode: "difference",
+        mixBlendMode: "exclusion",
         opacity: 0,
         willChange: "transform",
       }}
@@ -152,10 +150,6 @@ export default function CustomCursor() {
               xChannelSelector="R"
               yChannelSelector="G"
             />
-          </filter>
-          {/* Unused but ref required by component */}
-          <filter id="cursor-noop">
-            <feTurbulence ref={turbOuterRef} type="fractalNoise" baseFrequency="0.001" numOctaves="1" seed="1" />
           </filter>
         </defs>
         {/* Single liquid blob — no outline ring */}

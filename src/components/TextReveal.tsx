@@ -9,10 +9,10 @@ gsap.registerPlugin(ScrollTrigger);
 // ─── Constants ────────────────────────────────────────────────────────────────
 
 const WORDS = [
-  "We", "don't", "just", "plan", "events.", "We", "architect",
-  "moments", "that", "become", "memories,", "engineer", "atmospheres",
-  "that", "shift", "perspectives,", "and", "craft", "stories",
-  "that", "outlive", "the", "night.",
+  "We", "don't", "just", "organise", "events.", "We", "design",
+  "experiences", "that", "reflect", "your", "vision,", "coordinate",
+  "every", "detail", "with", "care,", "and", "deliver", "moments",
+  "that", "stay", "with", "you.",
 ];
 
 const SCATTER_RADIUS = 220;
@@ -147,7 +147,7 @@ export default function TextReveal() {
     <section
       ref={sectionRef}
       className="relative flex items-center justify-center overflow-hidden"
-      style={{ height: "100vh", minHeight: 600 }}
+      style={{ height: "100dvh", minHeight: 600 }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >

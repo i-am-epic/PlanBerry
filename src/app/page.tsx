@@ -1,53 +1,42 @@
-"use client";
-
-import { useState } from "react";
 import Navbar from "@/components/Navbar";
 import Hero from "@/components/Hero";
 import Services from "@/components/Services";
-import FloralArchScene from "@/components/FloralArchScene";
 import ValueProp from "@/components/ValueProp";
-import ParallaxShowcase from "@/components/ParallaxShowcase";
+import WhyChoose from "@/components/sections/WhyChoose";
+import Approach from "@/components/sections/Approach";
+import MediaProductionSection from "@/components/sections/MediaProduction";
+import CaseStudiesPinned from "@/components/sections/CaseStudiesPinned";
 import TextReveal from "@/components/TextReveal";
 import Manifesto from "@/components/Manifesto";
 import Stats from "@/components/Stats";
 import Testimonials from "@/components/Testimonials";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
-import ScrollProgress from "@/components/ScrollProgress";
-import CustomCursor from "@/components/CustomCursor";
-import ContactModal from "@/components/ContactModal";
+import FloralArchSceneLoader from "@/components/FloralArchSceneLoader";
 
 export default function Home() {
-  const [modalOpen, setModalOpen] = useState(false);
-
   return (
     <>
-      {/*
-       * Fixed / overlay UI — lives OUTSIDE #smooth-content so ScrollSmoother
-       * transforms don't affect them (per GSAP docs: "position:fixed elements
-       * can go outside the smooth-wrapper").
-       */}
-      <ScrollProgress />
-      <CustomCursor />
-      <ContactModal open={modalOpen} onClose={() => setModalOpen(false)} />
-      <Navbar onCtaClick={() => setModalOpen(true)} />
+      <Navbar />
 
-      {/* ── ScrollSmoother container ── */}
       <div id="smooth-wrapper">
         <div id="smooth-content">
           <main>
-            <Hero onCtaClick={() => setModalOpen(true)} />
+            <Hero />
             <Services />
-            <FloralArchScene />
+            <WhyChoose />
+            <FloralArchSceneLoader />
             <ValueProp />
-            <ParallaxShowcase />
+            <Approach />
+            <CaseStudiesPinned />
+            <MediaProductionSection />
             <TextReveal />
             <Manifesto />
             <Stats />
             <Testimonials />
-            <CTA onCtaClick={() => setModalOpen(true)} />
+            <CTA />
           </main>
-          <Footer onCtaClick={() => setModalOpen(true)} />
+          <Footer />
         </div>
       </div>
     </>

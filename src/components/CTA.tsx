@@ -3,15 +3,15 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useContactModal } from "@/components/providers/ModalProvider";
+import MagneticButton from "@/components/ui/MagneticButton";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Heading words — each becomes a span animated in scrub sequence
-const HEADING_WORDS = ["Ready", "to", "craft", "something", "extraordinary?"];
+const HEADING_WORDS = ["Ready", "to", "plan", "something", "meaningful?"];
 
-// ─── Component ────────────────────────────────────────────────────────────────
-
-export default function CTA({ onCtaClick }: { onCtaClick?: () => void }) {
+export default function CTA() {
+  const { openContact } = useContactModal();
   const sectionRef = useRef<HTMLElement>(null);
   const labelRef = useRef<HTMLSpanElement>(null);
   const headingRef = useRef<HTMLHeadingElement>(null);
@@ -66,7 +66,7 @@ export default function CTA({ onCtaClick }: { onCtaClick?: () => void }) {
       ref={sectionRef}
       id="contact"
       className="relative flex items-center justify-center overflow-hidden"
-      style={{ height: "100vh", minHeight: 600 }}
+      style={{ height: "100dvh", minHeight: 600 }}
     >
       <div className="section-center pad-x" style={{ maxWidth: "100%" }}>
 
@@ -133,8 +133,9 @@ export default function CTA({ onCtaClick }: { onCtaClick?: () => void }) {
             textAlign: "center",
           }}
         >
-          Whether it&apos;s a corporate summit for 5,000 or an intimate dinner for 20 —
-          we bring the same obsessive dedication to every experience we create.
+          Whether it&apos;s a corporate conference for 500 or an intimate house-warming
+          for 50 — we bring the same care, precision, and professionalism to every
+          event we manage.
         </p>
 
         {/* Buttons */}
@@ -148,12 +149,12 @@ export default function CTA({ onCtaClick }: { onCtaClick?: () => void }) {
             gap: "1.25rem",
           }}
         >
-          <button onClick={onCtaClick} className="btn-primary">
+          <MagneticButton onClick={openContact} className="btn-primary">
             Submit Your Brief
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <path d="M7 17L17 7M17 7H7M17 7v10" />
             </svg>
-          </button>
+          </MagneticButton>
           <a href="tel:+918012345678" className="btn-secondary">
             +91 80 1234 5678
           </a>

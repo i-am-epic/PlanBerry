@@ -3,6 +3,7 @@
 import { useEffect, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useContactModal } from "@/components/providers/ModalProvider";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -96,7 +97,8 @@ function TimezoneClock({ city, timezone, abbr }: { city: string; timezone: strin
   );
 }
 
-export default function Footer({ onCtaClick }: { onCtaClick?: () => void }) {
+export default function Footer() {
+  const { openContact } = useContactModal();
   const footerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -143,7 +145,7 @@ export default function Footer({ onCtaClick }: { onCtaClick?: () => void }) {
               className="text-sm text-[#999] leading-[1.8] mb-10"
               style={{ fontFamily: "var(--font-body)", fontWeight: 300, maxWidth: "32ch" }}
             >
-              Crafting extraordinary experiences from the heart of Bangalore. Every event, a masterpiece.
+              Thoughtfully planned events that run seamlessly — from corporate conferences to personal celebrations. Based in Bangalore.
             </p>
             <div className="flex items-center gap-4">
               {socials.map((s) => (
@@ -186,7 +188,7 @@ export default function Footer({ onCtaClick }: { onCtaClick?: () => void }) {
             </h4>
             <ul className="space-y-4">
               <li>
-                <button onClick={onCtaClick} className="text-sm text-[#999] hover:text-[#f5f5f0] link-hover transition-colors duration-300 text-left" style={{ fontFamily: "var(--font-body)", fontWeight: 300, background: "none", border: "none", cursor: "pointer", padding: 0 }}>
+                <button onClick={openContact} className="text-sm text-[#999] hover:text-[#f5f5f0] link-hover transition-colors duration-300 text-left" style={{ fontFamily: "var(--font-body)", fontWeight: 300, background: "none", border: "none", cursor: "pointer", padding: 0 }}>
                   hello@planberry.in
                 </button>
               </li>

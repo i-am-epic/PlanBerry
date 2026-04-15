@@ -7,15 +7,16 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 gsap.registerPlugin(ScrollTrigger);
 
 const stats = [
-  { value: 500, suffix: "+", label: "Events delivered", badge: "EVENTS" },
-  { value: 25,  suffix: "+", label: "World-class clients", badge: "NETWORK" },
-  { value: 10,  suffix: "K+", label: "Guests hosted", badge: "REACH" },
-  { value: 100, suffix: "M", label: "In event budgets", badge: "INVESTMENTS", prefix: "\u20B9" },
+  { value: 150, suffix: "+", label: "Events delivered", badge: "EVENTS" },
+  { value: 50,  suffix: "+", label: "Trusted clients", badge: "NETWORK" },
+  { value: 8,   suffix: "K+", label: "Guests experienced", badge: "REACH" },
+  { value: 100, suffix: "%", label: "End-to-end managed", badge: "DELIVERY" },
 ];
 
 const clientLogos = [
-  "Champions League", "Premier League", "F1", "Grammy Awards", "NBA",
-  "NFL", "PGA", "Olympics", "Oscars", "BAFTA",
+  "Corporate Events", "Product Launches", "Weddings", "Sangeet Ceremonies",
+  "Brand Activations", "Annual Days", "Team Building", "Conferences",
+  "Award Ceremonies", "House Warmings",
 ];
 
 function AnimatedCounter({
@@ -154,7 +155,7 @@ export default function Stats() {
                 letterSpacing: "-0.02em",
                 marginBottom: "0.75rem",
               }}>
-                <AnimatedCounter value={stat.value} suffix={stat.suffix} prefix={stat.prefix} trigger={triggered} />
+                <AnimatedCounter value={stat.value} suffix={stat.suffix} trigger={triggered} />
               </div>
 
               {/* Label */}

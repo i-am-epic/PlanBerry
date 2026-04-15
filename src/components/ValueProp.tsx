@@ -34,7 +34,7 @@ export default function ValueProp() {
     <section
       ref={sectionRef}
       className="relative flex items-center justify-center overflow-hidden"
-      style={{ height: "100vh", minHeight: 600 }}
+      style={{ height: "100dvh", minHeight: 600 }}
     >
       {/* data-speed: content drifts slightly slower than scroll = depth / floating feel */}
       <div data-speed="0.92" className="section-center pad-x">
@@ -67,12 +67,12 @@ export default function ValueProp() {
             textAlign: "center",
           }}
         >
-          The premier event studio crafting immersive experiences for
-          visionaries shaping the{" "}
+          A full-service event management company that brings people and ideas
+          together — corporate experiences and personal{" "}
           <span className="italic" style={{ fontVariationSettings: "'SOFT' 100, 'WONK' 1" }}>
-            future
+            celebrations
           </span>{" "}
-          of culture.
+          crafted with purpose.
         </h2>
         <p
           ref={paraRef}
@@ -86,8 +86,9 @@ export default function ValueProp() {
             textAlign: "center",
           }}
         >
-          Our team spans world-class designers, producers, and strategists —
-          people who shape perspective, shift culture, and open doors.
+          We go beyond simply organising events. We work closely with our clients
+          to design experiences that reflect their purpose, their people, and their
+          values — delivered with creativity, precision, and professionalism.
         </p>
       </div>
     </section>

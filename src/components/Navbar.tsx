@@ -1,14 +1,17 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useContactModal } from "@/components/providers/ModalProvider";
 
 const navLinks = [
-  { label: "Corporates", href: "#services" },
-  { label: "Celebrations", href: "#portfolio" },
+  { label: "Services", href: "#services" },
+  { label: "Approach", href: "#approach" },
+  { label: "Work", href: "#work" },
   { label: "Stories", href: "#testimonials" },
 ];
 
-export default function Navbar({ onCtaClick }: { onCtaClick?: () => void }) {
+export default function Navbar() {
+  const { openContact } = useContactModal();
   const [menuOpen, setMenuOpen] = useState(false);
   const [hidden, setHidden] = useState(false);
 
@@ -78,7 +81,7 @@ export default function Navbar({ onCtaClick }: { onCtaClick?: () => void }) {
           {/* CTA button */}
           <div className="hidden md:flex items-center shrink-0">
             <button
-              onClick={onCtaClick}
+              onClick={openContact}
               className="inline-flex items-center gap-2.5 rounded-full bg-[#f5f5f0] text-[#080808] hover:bg-white hover:-translate-y-[1px] transition-all duration-300"
               style={{
                 fontFamily: "var(--font-body)",
@@ -90,7 +93,7 @@ export default function Navbar({ onCtaClick }: { onCtaClick?: () => void }) {
                 cursor: "pointer",
               }}
             >
-              Build the future
+              Plan my event
               <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
                 <path d="M5 12h14M12 5l7 7-7 7" />
               </svg>
@@ -132,7 +135,7 @@ export default function Navbar({ onCtaClick }: { onCtaClick?: () => void }) {
             </a>
           ))}
           <button
-            onClick={() => { setMenuOpen(false); onCtaClick?.(); }}
+            onClick={() => { setMenuOpen(false); openContact(); }}
             className="mt-4 inline-flex items-center gap-2.5 px-8 py-4 rounded-full text-base bg-[#f5f5f0] text-[#080808]"
             style={{
               fontFamily: "var(--font-body)",
@@ -144,7 +147,7 @@ export default function Navbar({ onCtaClick }: { onCtaClick?: () => void }) {
               transition: "all 0.5s var(--ease-out-expo) 0.4s",
             }}
           >
-            Build the future
+            Plan my event
             <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
               <path d="M5 12h14M12 5l7 7-7 7" />
             </svg>

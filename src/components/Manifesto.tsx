@@ -9,18 +9,18 @@ gsap.registerPlugin(ScrollTrigger);
 const principles = [
   {
     number: "01",
-    title: "Obsessive Craft",
-    text: "The angle of a spotlight, the weight of stationery, the scent that lingers in a room — we obsess over invisible details so your guests feel something they can't quite name.",
+    title: "Clear Planning",
+    text: "From the first consultation to the final wrap-up, we follow a structured and transparent process. Every element is planned for feasibility, clarity, and value — no surprises, just results.",
   },
   {
     number: "02",
-    title: "Cultural Fluency",
-    text: "From heritage weddings to global product launches, we move between worlds — tech, tradition, art, commerce — with equal confidence and deep respect for what each demands.",
+    title: "Creative Execution",
+    text: "Strategy alone isn't enough. We combine thoughtful design with precise coordination to bring your vision to life — whether it's a corporate conference or a once-in-a-lifetime celebration.",
   },
   {
     number: "03",
-    title: "Radical Collaboration",
-    text: "Your story is the north star. We bring the network, the production craft, and years of experience transforming ambitious visions into living, breathing reality.",
+    title: "Purposeful Partnership",
+    text: "Your objectives are our north star. We take the time to understand your vision, align with your goals, and build an experience that reflects who you are and what you stand for.",
   },
 ];
 
@@ -110,11 +110,11 @@ export default function Manifesto() {
               fontVariationSettings: "'SOFT' 50, 'WONK' 1",
             }}
           >
-            Every gathering is a story.{" "}
+            Every event has a story to tell.{" "}
             <span className="italic" style={{ fontVariationSettings: "'SOFT' 100, 'WONK' 1" }}>
-              We write
+              We help you
             </span>{" "}
-            the ones worth retelling.
+            tell it right.
           </h2>
         </div>
 

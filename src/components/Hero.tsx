@@ -3,15 +3,17 @@
 import { useEffect, useRef, useState, useCallback } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import Hls from "hls.js";
+import type HlsType from "hls.js";
 import BlueprintOverlay from "./BlueprintOverlay";
+import { useContactModal } from "@/components/providers/ModalProvider";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const HLS_SRC =
   "https://stream.mux.com/BLC6VVUBEBHvYTC7x02S5iULppqcdMmsUmGHVXq02y8W8.m3u8?max_resolution=1080p&min_resolution=720p";
 
-export default function Hero({ onCtaClick }: { onCtaClick?: () => void }) {
+export default function Hero() {
+  const { openContact } = useContactModal();
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const rightRef = useRef<HTMLDivElement>(null);
@@ -20,27 +22,50 @@ export default function Hero({ onCtaClick }: { onCtaClick?: () => void }) {
   const [isPlaying, setIsPlaying] = useState(true);
   const [immersiveMode, setImmersiveMode] = useState(false);
 
-  // HLS video setup
+  // HLS video setup — deferred via requestIdleCallback, native HLS on Safari
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    let hls: Hls | null = null;
+    let hls: HlsType | null = null;
+    let cancelled = false;
 
-    if (Hls.isSupported()) {
-      hls = new Hls({ enableWorker: true, lowLatencyMode: false });
-      hls.loadSource(HLS_SRC);
-      hls.attachMedia(video);
-      hls.on(Hls.Events.MANIFEST_PARSED, () => {
-        video.play().catch(() => { });
-      });
-    } else if (video.canPlayType("application/vnd.apple.mpegurl")) {
+    if (video.canPlayType("application/vnd.apple.mpegurl")) {
       video.src = HLS_SRC;
       video.addEventListener("loadedmetadata", () => {
         video.play().catch(() => { });
       });
+      return;
     }
 
+    const bootHls = () => {
+      if (cancelled) return;
+      import("hls.js").then(({ default: Hls }) => {
+        if (cancelled || !Hls.isSupported()) return;
+        hls = new Hls({ enableWorker: true, lowLatencyMode: false });
+        hls.loadSource(HLS_SRC);
+        hls.attachMedia(video);
+        hls.on(Hls.Events.MANIFEST_PARSED, () => {
+          video.play().catch(() => { });
+        });
+      });
+    };
+
+    const w = window as Window & {
+      requestIdleCallback?: (cb: () => void, opts?: { timeout: number }) => number;
+      cancelIdleCallback?: (h: number) => void;
+    };
+    const useRic = typeof w.requestIdleCallback === "function";
+    const handle = useRic
+      ? w.requestIdleCallback!(bootHls, { timeout: 1500 })
+      : (window.setTimeout(bootHls, 300) as unknown as number);
+
     return () => {
+      cancelled = true;
+      if (useRic && typeof w.cancelIdleCallback === "function") {
+        w.cancelIdleCallback(handle);
+      } else {
+        clearTimeout(handle);
+      }
       hls?.destroy();
     };
   }, []);
@@ -62,6 +87,32 @@ export default function Hero({ onCtaClick }: { onCtaClick?: () => void }) {
         delay: 0.8,
         ease: "expo.out",
       });
+
+      // Variable-font SOFT axis entrance — morphs from stiff 0 to soft 50
+      const h1s = sectionRef.current?.querySelectorAll("h1.hero-h1");
+      if (h1s && h1s.length) {
+        gsap.fromTo(
+          h1s,
+          { "--hero-soft": 0 },
+          {
+            "--hero-soft": 50,
+            duration: 1.8,
+            delay: 0.55,
+            ease: "expo.out",
+          }
+        );
+        // Scroll-scrub SOFT from 50 → 100 as section scrolls up
+        gsap.to(h1s, {
+          "--hero-soft": 100,
+          ease: "none",
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top top",
+            end: "40% top",
+            scrub: 0.8,
+          },
+        });
+      }
 
       // Text exits fast — gone by 40% scroll
       gsap.to(headingRef.current, {
@@ -142,7 +193,7 @@ export default function Hero({ onCtaClick }: { onCtaClick?: () => void }) {
       ref={sectionRef}
       id="hero"
       className="relative w-full overflow-hidden cursor-pointer"
-      style={{ height: "100vh", minHeight: 600 }}
+      style={{ height: "100dvh", minHeight: 600 }}
       onClick={handleVideoClick}
     >
       {/* Video */}
@@ -208,12 +259,13 @@ export default function Hero({ onCtaClick }: { onCtaClick?: () => void }) {
         <div className="md:hidden flex flex-col items-center text-center gap-5">
           <div ref={headingRef}>
             <h1
-              className="text-white leading-[0.9] tracking-[-0.03em]"
+              className="hero-h1 text-white leading-[0.9] tracking-[-0.03em]"
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 400,
                 fontSize: "clamp(3.2rem, 13vw, 5rem)",
-                fontVariationSettings: "'SOFT' 50, 'WONK' 1",
+                ["--hero-soft" as string]: "50",
+                fontVariationSettings: "'SOFT' var(--hero-soft, 50), 'WONK' 1",
               }}
             >
               Your{" "}
@@ -223,7 +275,7 @@ export default function Hero({ onCtaClick }: { onCtaClick?: () => void }) {
           </div>
           <div ref={rightRef} className="flex flex-col items-center gap-3">
             <button
-              onClick={(e) => { e.stopPropagation(); onCtaClick?.(); }}
+              onClick={(e) => { e.stopPropagation(); openContact(); }}
               className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full text-[15px] text-[#080808] bg-[#f5f5f0] hover:bg-white transition-all duration-300"
               style={{ fontFamily: "var(--font-body)", fontWeight: 500 }}
             >
@@ -257,12 +309,13 @@ export default function Hero({ onCtaClick }: { onCtaClick?: () => void }) {
           {/* LEFT — Headline */}
           <div ref={headingRef} className="flex-1 min-w-0 md:pl-[8%] lg:pl-[12%]">
             <h1
-              className="text-white leading-[0.88] tracking-[-0.03em]"
+              className="hero-h1 text-white leading-[0.88] tracking-[-0.03em]"
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 400,
                 fontSize: "clamp(3.5rem, 7vw, 9rem)",
-                fontVariationSettings: "'SOFT' 50, 'WONK' 1",
+                ["--hero-soft" as string]: "50",
+                fontVariationSettings: "'SOFT' var(--hero-soft, 50), 'WONK' 1",
               }}
             >
               Your{" "}
@@ -295,7 +348,7 @@ export default function Hero({ onCtaClick }: { onCtaClick?: () => void }) {
             </button>
 
             <button
-              onClick={(e) => { e.stopPropagation(); onCtaClick?.(); }}
+              onClick={(e) => { e.stopPropagation(); openContact(); }}
               className="inline-flex items-center gap-3 px-14 py-8 rounded-full text-[16px] text-[#080808] bg-[#f5f5f0] hover:bg-white transition-all duration-300"
               style={{ fontFamily: "var(--font-body)", fontWeight: 500 }}
             >
@@ -308,8 +361,8 @@ export default function Hero({ onCtaClick }: { onCtaClick?: () => void }) {
               className="text-[14px] text-[rgba(255,255,255,0.5)] leading-[1.7]"
               style={{ fontFamily: "var(--font-body)", fontWeight: 300 }}
             >
-              Premier event studio for corporates &amp; celebrations —
-              crafting experiences that become legend.
+              Full-service event management for corporate experiences and
+              personal celebrations — crafted with creativity, precision, and purpose.
             </p>
           </div>
         </div>
