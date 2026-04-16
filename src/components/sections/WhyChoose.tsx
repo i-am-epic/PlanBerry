@@ -105,22 +105,34 @@ export default function WhyChoose() {
           {whyChoose.map((item) => (
             <div
               key={item.number}
-              className="why-row grid grid-cols-[auto_1fr] md:grid-cols-[auto_1fr_2fr] gap-6 md:gap-12 items-start py-8"
+              className="why-row group relative grid grid-cols-[auto_1fr] md:grid-cols-[auto_1fr_2fr] gap-6 md:gap-12 items-start py-8 cursor-default"
               style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}
             >
+              {/* Draw-in accent line on hover */}
               <span
+                className="absolute left-0 top-0 h-[1px] origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-[900ms]"
+                style={{
+                  background:
+                    "linear-gradient(90deg, rgba(245,245,240,0.7) 0%, rgba(245,245,240,0) 100%)",
+                  transitionTimingFunction: "var(--ease-out-expo)",
+                  width: "100%",
+                }}
+              />
+              <span
+                className="transition-all duration-700 group-hover:text-[rgba(245,245,240,0.85)] group-hover:tracking-[0.28em]"
                 style={{
                   fontFamily: "var(--font-body)",
                   fontSize: "0.72rem",
                   letterSpacing: "0.15em",
                   color: "#555",
                   marginTop: "0.6rem",
+                  transitionTimingFunction: "var(--ease-out-expo)",
                 }}
               >
                 {item.number}
               </span>
               <h3
-                className="text-white"
+                className="text-white transition-all duration-700 group-hover:translate-x-1"
                 style={{
                   fontFamily: "var(--font-display)",
                   fontWeight: 400,
@@ -128,12 +140,13 @@ export default function WhyChoose() {
                   lineHeight: 1.15,
                   letterSpacing: "-0.01em",
                   fontVariationSettings: "'SOFT' 50, 'WONK' 0",
+                  transitionTimingFunction: "var(--ease-out-expo)",
                 }}
               >
                 {item.title}
               </h3>
               <p
-                className="col-span-2 md:col-span-1"
+                className="col-span-2 md:col-span-1 transition-colors duration-700 group-hover:text-[rgba(255,255,255,0.75)]"
                 style={{
                   fontFamily: "var(--font-body)",
                   fontWeight: 300,

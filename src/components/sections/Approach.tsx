@@ -100,27 +100,38 @@ export default function Approach() {
           {approach.map((step) => (
             <div
               key={step.number}
-              className="approach-step grid grid-cols-[auto_1fr] lg:grid-cols-[auto_1.2fr_1.8fr] gap-6 md:gap-12 items-baseline py-10"
+              className="approach-step group grid grid-cols-[auto_1fr] lg:grid-cols-[auto_1.2fr_1.8fr] gap-6 md:gap-12 items-baseline py-10 cursor-default"
               style={{ position: "relative" }}
             >
               <div
                 className="approach-rule absolute top-0 left-0 right-0 h-[1px]"
                 style={{ background: "rgba(255,255,255,0.1)" }}
               />
+              {/* Hover accent sweep */}
               <span
-                className="text-white/25"
+                aria-hidden
+                className="absolute top-0 left-0 h-[1px] w-full origin-left scale-x-0 group-hover:scale-x-100 transition-transform duration-[900ms]"
+                style={{
+                  background:
+                    "linear-gradient(90deg, rgba(245,245,240,0.85) 0%, rgba(245,245,240,0) 100%)",
+                  transitionTimingFunction: "var(--ease-out-expo)",
+                }}
+              />
+              <span
+                className="text-white/25 transition-all duration-700 group-hover:text-white/60 group-hover:translate-x-[-4px]"
                 style={{
                   fontFamily: "var(--font-display)",
                   fontWeight: 400,
                   fontSize: "clamp(1.4rem, 2vw, 1.9rem)",
                   fontVariationSettings: "'SOFT' 100, 'WONK' 1",
                   fontStyle: "italic",
+                  transitionTimingFunction: "var(--ease-out-expo)",
                 }}
               >
                 {step.number}
               </span>
               <h3
-                className="text-white"
+                className="text-white transition-transform duration-700 group-hover:translate-x-1"
                 style={{
                   fontFamily: "var(--font-display)",
                   fontWeight: 400,
@@ -128,12 +139,13 @@ export default function Approach() {
                   letterSpacing: "-0.01em",
                   lineHeight: 1.15,
                   fontVariationSettings: "'SOFT' 50, 'WONK' 0",
+                  transitionTimingFunction: "var(--ease-out-expo)",
                 }}
               >
                 {step.title}
               </h3>
               <p
-                className="col-span-2 lg:col-span-1"
+                className="col-span-2 lg:col-span-1 transition-colors duration-700 group-hover:text-[rgba(255,255,255,0.75)]"
                 style={{
                   fontFamily: "var(--font-body)",
                   fontWeight: 300,

@@ -57,17 +57,23 @@ export default function CaseStudiesPinned() {
     <section
       ref={sectionRef}
       id="work"
-      className="relative overflow-hidden grid content-center"
-      style={{ background: "#080808", height: "100dvh", minHeight: 640 }}
+      className="relative overflow-hidden lg:h-dvh lg:grid lg:content-center"
+      style={{
+        background: "#080808",
+        // Mobile: natural content flow with padding; desktop: pinned 100dvh.
+        paddingTop: "clamp(5rem, 9vh, 8rem)",
+        paddingBottom: "clamp(4rem, 7vh, 6rem)",
+      }}
     >
-      {/* Intro row — compact top strip */}
+      {/* Intro row — absolute on desktop (above pinned track), static on mobile */}
       <div
-        className="absolute top-0 left-0 right-0 z-10 flex flex-col lg:flex-row lg:items-end justify-between gap-4 lg:gap-20"
+        className="lg:absolute lg:top-0 lg:left-0 lg:right-0 z-10 flex flex-col lg:flex-row lg:items-end justify-between gap-4 lg:gap-20"
         style={{
           paddingLeft: "var(--pad-x)",
           paddingRight: "var(--pad-x)",
           paddingTop: "clamp(2rem, 3.5vh, 3rem)",
           paddingBottom: "clamp(0.75rem, 1.5vh, 1.25rem)",
+          marginBottom: "clamp(2rem, 4vh, 3rem)",
         }}
       >
         <div>
@@ -120,10 +126,10 @@ export default function CaseStudiesPinned() {
         </p>
       </div>
 
-      {/* Track — grid content-center on section handles vertical centering */}
+      {/* Track — desktop: horizontal pinned row. Mobile: vertical stack, centered. */}
       <div
         ref={trackRef}
-        className="flex items-center gap-6 md:gap-8 will-change-transform"
+        className="flex flex-col lg:flex-row items-stretch lg:items-center gap-6 md:gap-8 will-change-transform"
         style={{
           paddingLeft: "max(var(--pad-x), calc(50vw - min(32vw, 230px)))",
           paddingRight: "max(var(--pad-x), calc(50vw - min(32vw, 230px)))",
@@ -133,10 +139,9 @@ export default function CaseStudiesPinned() {
             <Link
               key={cs.slug}
               href={`/work/${cs.slug}`}
-              className="cs-card shrink-0 group block relative"
+              className="cs-card shrink-0 group block relative w-full lg:w-[min(64vw,460px)] lg:h-[min(58vh,500px)] mx-auto"
               style={{
-                width: "min(64vw, 460px)",
-                height: "min(58vh, 500px)",
+                maxWidth: "min(92vw, 460px)",
                 background: "#0c0c0c",
                 border: "1px solid rgba(255,255,255,0.08)",
                 borderRadius: "6px",
@@ -146,8 +151,7 @@ export default function CaseStudiesPinned() {
               }}
             >
               <div
-                className="relative w-full shrink-0 overflow-hidden"
-                style={{ height: "52%" }}
+                className="relative w-full shrink-0 overflow-hidden aspect-[4/3] lg:aspect-auto lg:h-[min(30vh,260px)]"
               >
                 <Image
                   src={cs.image}

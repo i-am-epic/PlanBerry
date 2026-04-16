@@ -142,15 +142,20 @@ export default function Testimonials() {
     <section
       ref={sectionRef}
       id="testimonials"
-      className="relative overflow-hidden grid content-center"
-      style={{ background: "#080808", height: "100dvh", minHeight: 580 }}
+      className="relative overflow-hidden md:h-dvh md:grid md:content-center"
+      style={{
+        background: "#080808",
+        paddingTop: "clamp(5rem, 8vh, 7rem)",
+        paddingBottom: "clamp(4rem, 6vh, 5rem)",
+      }}
     >
-      {/* Section label */}
+      {/* Section label — absolute on desktop, flows on mobile */}
       <div
-        className="absolute top-0 left-0 z-10"
+        className="md:absolute md:top-0 md:left-0 z-10"
         style={{
-          paddingTop: "clamp(2rem, 3.5vh, 3rem)",
+          paddingTop: "clamp(0rem, 3.5vh, 3rem)",
           paddingLeft: "var(--pad-x)",
+          marginBottom: "clamp(2rem, 4vh, 3rem)",
         }}
       >
         <span
@@ -163,7 +168,7 @@ export default function Testimonials() {
 
       <div
         ref={trackRef}
-        className="flex md:flex-nowrap flex-wrap items-center gap-6 md:gap-8 will-change-transform"
+        className="flex flex-col md:flex-row md:flex-nowrap items-center md:items-center gap-6 md:gap-8 will-change-transform"
         style={{
           paddingLeft: "max(var(--pad-x), calc(50vw - min(17vw, 220px)))",
           paddingRight: "max(var(--pad-x), calc(50vw - min(17vw, 220px)))",
@@ -172,13 +177,13 @@ export default function Testimonials() {
           {testimonialsData.map((t) => (
             <TiltCard key={t.author}>
               <div
-                className="testimonial-card rounded-[10px] p-7 md:p-9 lg:p-10 flex flex-col justify-between"
+                className="testimonial-card rounded-[10px] p-7 md:p-9 lg:p-10 flex flex-col justify-between mx-auto md:mx-0 w-full md:w-[clamp(280px,34vw,440px)]"
                 style={{
                   background: "#111",
                   border: "1px solid rgba(255,255,255,0.06)",
-                  width: "clamp(280px, 34vw, 440px)",
+                  maxWidth: "min(92vw, 440px)",
                   flexShrink: 0,
-                  minHeight: "300px",
+                  minHeight: "260px",
                 }}
               >
                 <blockquote

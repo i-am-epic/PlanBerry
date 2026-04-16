@@ -23,8 +23,29 @@ export default function CTA() {
       const section = sectionRef.current;
       if (!section) return;
 
+      // Split each cta-word into character spans for per-letter reveal.
+      const wordEls = headingRef.current?.querySelectorAll<HTMLElement>(".cta-word");
+      const allChars: HTMLElement[] = [];
+      wordEls?.forEach((w) => {
+        const text = w.textContent ?? "";
+        w.textContent = "";
+        for (const ch of text) {
+          const outer = document.createElement("span");
+          outer.style.display = "inline-block";
+          outer.style.overflow = "hidden";
+          outer.style.lineHeight = "1";
+          outer.style.verticalAlign = "top";
+          const inner = document.createElement("span");
+          inner.style.display = "inline-block";
+          inner.style.willChange = "transform, filter, opacity";
+          inner.textContent = ch;
+          outer.appendChild(inner);
+          w.appendChild(outer);
+          allChars.push(inner);
+        }
+      });
+
       // ── Pinned scrub timeline ───────────────────────────────────────────
-      // The section is pinned; content reveals as user scrolls through 60vh of travel.
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
@@ -38,21 +59,30 @@ export default function CTA() {
 
       // Initial states
       gsap.set(labelRef.current, { opacity: 0, y: 12 });
-      gsap.set(headingRef.current?.querySelectorAll(".cta-word") ?? [], { opacity: 0.1 });
+      gsap.set(allChars, { yPercent: 120, rotationX: -80, opacity: 0, filter: "blur(6px)" });
       gsap.set(paraRef.current, { opacity: 0, y: 16 });
       gsap.set(buttonsRef.current, { opacity: 0, y: 18 });
 
       // 1. Label slides up
-      tl.to(labelRef.current, { opacity: 1, y: 0, ease: "power2.out", duration: 0.25 });
+      tl.to(labelRef.current, { opacity: 1, y: 0, ease: "power2.out", duration: 0.22 });
 
-      // 2. Heading — words brighten one by one
-      const wordEls = headingRef.current?.querySelectorAll(".cta-word");
-      Array.from(wordEls ?? []).forEach((word) => {
-        tl.to(word, { opacity: 1, ease: "power1.out", duration: 0.22 }, "-=0.1");
-      });
+      // 2. Heading — characters reveal with 3D flip + unblur, staggered
+      tl.to(
+        allChars,
+        {
+          yPercent: 0,
+          rotationX: 0,
+          opacity: 1,
+          filter: "blur(0px)",
+          ease: "expo.out",
+          duration: 0.9,
+          stagger: { each: 0.012, from: "start" },
+        },
+        "-=0.05"
+      );
 
-      // 3. Para fades in after last word
-      tl.to(paraRef.current, { opacity: 1, y: 0, ease: "power2.out", duration: 0.3 }, "-=0.05");
+      // 3. Para fades in after heading
+      tl.to(paraRef.current, { opacity: 1, y: 0, ease: "power2.out", duration: 0.28 }, "-=0.2");
 
       // 4. Buttons
       tl.to(buttonsRef.current, { opacity: 1, y: 0, ease: "expo.out", duration: 0.3 }, "-=0.1");
@@ -100,6 +130,7 @@ export default function CTA() {
             maxWidth: "16ch",
             marginBottom: "3rem",
             textAlign: "center",
+            perspective: "900px",
           }}
         >
           {HEADING_WORDS.map((word, i) => (

@@ -19,26 +19,49 @@ const clientLogos = [
   "Award Ceremonies", "House Warmings",
 ];
 
+/**
+ * Count-up with a brief scramble pre-roll so the final digits feel earned,
+ * not interpolated. Each frame during scramble swaps random digits; once
+ * progress passes ~30%, we lock in true interpolated digits for the rest
+ * of the ease-out-cubic settle.
+ */
 function AnimatedCounter({
   value, suffix, prefix, trigger,
 }: {
   value: number; suffix: string; prefix?: string; trigger: boolean;
 }) {
-  const [count, setCount] = useState(0);
+  const [display, setDisplay] = useState<string>(() => "0");
 
   useEffect(() => {
     if (!trigger) return;
-    const steps = 60;
+    const digits = String(value).length;
+    const steps = 70;
+    const scrambleUntil = 0.32;
     let step = 0;
+
+    const pad = (n: string) => n.padStart(digits, "0").replace(/^0+(?=\d)/, "");
+    const randDigits = () =>
+      Array.from({ length: digits }, () => Math.floor(Math.random() * 10)).join("");
+
     const timer = setInterval(() => {
       step++;
-      setCount(Math.floor(value * (1 - Math.pow(1 - step / steps, 3))));
-      if (step >= steps) { setCount(value); clearInterval(timer); }
-    }, 2000 / steps);
+      const t = step / steps;
+      if (t < scrambleUntil) {
+        setDisplay(pad(randDigits()));
+      } else {
+        const eased = 1 - Math.pow(1 - (t - scrambleUntil) / (1 - scrambleUntil), 3);
+        setDisplay(String(Math.floor(value * eased)));
+      }
+      if (step >= steps) {
+        setDisplay(String(value));
+        clearInterval(timer);
+      }
+    }, 1900 / steps);
+
     return () => clearInterval(timer);
   }, [trigger, value]);
 
-  return <>{prefix}{count}{suffix}</>;
+  return <>{prefix}{display}{suffix}</>;
 }
 
 export default function Stats() {

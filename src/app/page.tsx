@@ -13,6 +13,7 @@ import Testimonials from "@/components/Testimonials";
 import CTA from "@/components/CTA";
 import Footer from "@/components/Footer";
 import FloralArchSceneLoader from "@/components/FloralArchSceneLoader";
+import MarqueeDivider from "@/components/ui/MarqueeDivider";
 
 export default function Home() {
   return (
@@ -24,12 +25,14 @@ export default function Home() {
           <main>
             <Hero />
             <Services />
+            <MarqueeDivider text="Crafted with intent" accent="in Bangalore" direction="left" />
             <WhyChoose />
             <FloralArchSceneLoader />
             <ValueProp />
             <Approach />
             <CaseStudiesPinned />
             <MediaProductionSection />
+            <MarqueeDivider text="Moments that stay" accent="with you" direction="right" />
             <TextReveal />
             <Manifesto />
             <Stats />

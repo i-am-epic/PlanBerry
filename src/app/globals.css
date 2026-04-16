@@ -41,6 +41,30 @@
 
 html {
   scroll-behavior: auto;
+  /* iOS momentum scroll + better wheel inertia on touch devices */
+  -webkit-overflow-scrolling: touch;
+  /* Prevents scroll anchoring jank when above-the-fold heights change */
+  overflow-anchor: none;
+}
+
+/* Mobile: smooth out scroll by disabling costly hover transitions and
+   reducing paint area on elements that don't need them while scrolling. */
+@media (max-width: 899px), (pointer: coarse) {
+  html {
+    scroll-behavior: auto;
+    overscroll-behavior-y: contain;
+  }
+  body {
+    /* Hint the compositor; keeps scroll buttery on Chrome/Android */
+    transform: translateZ(0);
+    -webkit-tap-highlight-color: transparent;
+  }
+  /* Kill any lingering will-change on static elements — mobile GPU is tight */
+  .group:hover h3,
+  .group:hover span,
+  .group:hover p {
+    transition-duration: 0ms !important;
+  }
 }
 
 /* ScrollSmoother — only active on desktop where the JS creates it */

@@ -72,23 +72,63 @@ export default function Hero() {
   // GSAP entrance animations
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(headingRef.current, {
-        y: 40,
-        opacity: 0,
-        duration: 1.2,
-        delay: 0.5,
-        ease: "expo.out",
+      // ── Per-character split + cinematic reveal ────────────────────────────
+      // Split each .hero-h1 into per-char spans (preserving spaces and italics).
+      // Each char animates: blur 10→0, yPercent 120→0, rotationX -70→0, opacity.
+      const h1s = sectionRef.current?.querySelectorAll<HTMLElement>("h1.hero-h1");
+      const allChars: HTMLElement[] = [];
+
+      h1s?.forEach((h1) => {
+        const wordNodes = h1.querySelectorAll<HTMLElement>("[data-split-word]");
+        wordNodes.forEach((wordEl) => {
+          const raw = wordEl.textContent ?? "";
+          wordEl.textContent = "";
+          wordEl.style.display = "inline-block";
+          wordEl.style.perspective = "800px";
+          for (const ch of raw) {
+            if (ch === " ") {
+              wordEl.appendChild(document.createTextNode(" "));
+              continue;
+            }
+            const outer = document.createElement("span");
+            outer.style.display = "inline-block";
+            outer.style.overflow = "hidden";
+            outer.style.verticalAlign = "top";
+            outer.style.lineHeight = "1";
+            const inner = document.createElement("span");
+            inner.style.display = "inline-block";
+            inner.style.willChange = "transform, filter, opacity";
+            inner.textContent = ch;
+            outer.appendChild(inner);
+            wordEl.appendChild(outer);
+            allChars.push(inner);
+          }
+        });
       });
+
+      if (allChars.length) {
+        gsap.set(allChars, { yPercent: 120, rotationX: -70, opacity: 0, filter: "blur(10px)" });
+        gsap.to(allChars, {
+          yPercent: 0,
+          rotationX: 0,
+          opacity: 1,
+          filter: "blur(0px)",
+          duration: 1.3,
+          delay: 0.55,
+          ease: "expo.out",
+          stagger: { each: 0.025, from: "start" },
+        });
+      }
+
       gsap.from(rightRef.current, {
         y: 25,
         opacity: 0,
         duration: 1,
-        delay: 0.8,
+        delay: 1.0,
         ease: "expo.out",
       });
 
       // Variable-font SOFT axis entrance — morphs from stiff 0 to soft 50
-      const h1s = sectionRef.current?.querySelectorAll("h1.hero-h1");
       if (h1s && h1s.length) {
         gsap.fromTo(
           h1s,
@@ -113,15 +153,35 @@ export default function Hero() {
         });
       }
 
-      // Text exits fast — gone by 40% scroll
-      gsap.to(headingRef.current, {
-        y: -80, opacity: 0,
-        scrollTrigger: { trigger: sectionRef.current, start: "top top", end: "40% top", scrub: 0.6 },
-      });
-      gsap.to(rightRef.current, {
-        y: -50, opacity: 0,
-        scrollTrigger: { trigger: sectionRef.current, start: "top top", end: "35% top", scrub: 0.6 },
-      });
+      // Text exits on scroll — headline scrubs out per-char with blur return.
+      // IMPORTANT: fromTo + immediateRender:false so the scrub's start state
+      // isn't applied on page load (which would conflict with the entry tween's
+      // hidden initial yPercent:120 and leave the headline invisible).
+      if (allChars.length) {
+        gsap.fromTo(
+          allChars,
+          { yPercent: 0, filter: "blur(0px)", opacity: 1 },
+          {
+            yPercent: -110,
+            filter: "blur(8px)",
+            opacity: 0,
+            ease: "power2.in",
+            immediateRender: false,
+            stagger: { each: 0.008, from: "end" },
+            scrollTrigger: { trigger: sectionRef.current, start: "top top", end: "40% top", scrub: 0.8 },
+          }
+        );
+      }
+      gsap.fromTo(
+        rightRef.current,
+        { y: 0, opacity: 1 },
+        {
+          y: -50,
+          opacity: 0,
+          immediateRender: false,
+          scrollTrigger: { trigger: sectionRef.current, start: "top top", end: "35% top", scrub: 0.6 },
+        }
+      );
 
       // Video scale-up crop as user scrolls — creates a zoom-out/crop feel
       gsap.to(sectionRef.current?.querySelector("video") ?? {}, {
@@ -260,13 +320,14 @@ export default function Hero() {
                 fontFamily: "var(--font-display)",
                 fontWeight: 400,
                 fontSize: "clamp(3.2rem, 13vw, 5rem)",
+                perspective: "900px",
                 ["--hero-soft" as string]: "50",
                 fontVariationSettings: "'SOFT' var(--hero-soft, 50), 'WONK' 1",
               }}
             >
-              Your{" "}
-              <span className="italic" style={{ fontVariationSettings: "'SOFT' 100, 'WONK' 1" }}>vision</span>
-              ,<br />made.
+              <span data-split-word>Your</span>{" "}
+              <span data-split-word className="italic" style={{ fontVariationSettings: "'SOFT' 100, 'WONK' 1" }}>vision</span>
+              ,<br /><span data-split-word>made.</span>
             </h1>
           </div>
           <div ref={rightRef} className="flex flex-col items-center gap-3">
@@ -310,13 +371,14 @@ export default function Hero() {
                 fontFamily: "var(--font-display)",
                 fontWeight: 400,
                 fontSize: "clamp(3.5rem, 7vw, 9rem)",
+                perspective: "900px",
                 ["--hero-soft" as string]: "50",
                 fontVariationSettings: "'SOFT' var(--hero-soft, 50), 'WONK' 1",
               }}
             >
-              Your{" "}
-              <span className="italic" style={{ fontVariationSettings: "'SOFT' 100, 'WONK' 1" }}>vision</span>
-              ,<br />made.
+              <span data-split-word>Your</span>{" "}
+              <span data-split-word className="italic" style={{ fontVariationSettings: "'SOFT' 100, 'WONK' 1" }}>vision</span>
+              ,<br /><span data-split-word>made.</span>
             </h1>
           </div>
 
