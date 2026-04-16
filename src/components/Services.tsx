@@ -122,8 +122,8 @@ export default function Services() {
 
         <div className="grid md:grid-cols-2 gap-5 md:gap-6 lg:gap-8">
           {services.map((service, i) => (
-            <div key={service.title} ref={(el) => { cardsRef.current[i] = el; }}>
-              <TiltCard className="group relative rounded-[10px] overflow-hidden cursor-pointer">
+            <div key={service.title} ref={(el) => { cardsRef.current[i] = el; }} className="flex">
+              <TiltCard className="group relative rounded-[10px] overflow-hidden cursor-pointer flex flex-col w-full">
                 {/* Image — data-speed gives free parallax via ScrollSmoother */}
                 <div className="relative overflow-hidden aspect-[4/3] md:aspect-[16/11]">
                   <img
@@ -161,7 +161,7 @@ export default function Services() {
 
                 {/* Detail panel below image */}
                 <div
-                  className="bg-[#0f0f0f] border-t border-[rgba(255,255,255,0.06)]"
+                  className="bg-[#0f0f0f] border-t border-[rgba(255,255,255,0.06)] flex-1 flex flex-col"
                   style={{ padding: "clamp(1.5rem, 3vw, 2.2rem)" }}
                 >
                   <p
@@ -188,7 +188,7 @@ export default function Services() {
 
                   <a
                     href="#contact"
-                    className="inline-flex items-center gap-2 text-xs text-[rgba(255,255,255,0.5)] hover:text-white transition-colors duration-300"
+                    className="inline-flex items-center gap-2 text-xs text-[rgba(255,255,255,0.5)] hover:text-white transition-colors duration-300 mt-auto"
                     style={{ fontFamily: "var(--font-body)", fontWeight: 400, letterSpacing: "0.06em", textTransform: "uppercase" }}
                   >
                     {service.cta}

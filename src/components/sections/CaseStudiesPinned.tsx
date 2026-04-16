@@ -57,17 +57,17 @@ export default function CaseStudiesPinned() {
     <section
       ref={sectionRef}
       id="work"
-      className="pb-section relative overflow-hidden flex flex-col"
+      className="pb-section relative overflow-hidden"
       style={{ background: "#080808", height: "100dvh", minHeight: 640 }}
     >
-      {/* Intro row — fixed top strip */}
+      {/* Intro row — compact top strip */}
       <div
-        className="relative flex flex-col lg:flex-row lg:items-end justify-between gap-4 lg:gap-20 shrink-0"
+        className="absolute top-0 left-0 right-0 z-10 flex flex-col lg:flex-row lg:items-end justify-between gap-4 lg:gap-20"
         style={{
           paddingLeft: "var(--pad-x)",
           paddingRight: "var(--pad-x)",
-          paddingTop: "clamp(4rem, 7vh, 6rem)",
-          paddingBottom: "clamp(1rem, 2vh, 1.75rem)",
+          paddingTop: "clamp(2rem, 3.5vh, 3rem)",
+          paddingBottom: "clamp(0.75rem, 1.5vh, 1.25rem)",
         }}
       >
         <div>
@@ -120,15 +120,14 @@ export default function CaseStudiesPinned() {
         </p>
       </div>
 
-      {/* Horizontal track — flexes to fill remaining height, cards vertically centered */}
-      <div className="relative flex-1 min-h-0 w-full overflow-hidden flex items-center">
+      {/* Track — absolute inset-0 fills section, flex centers cards vertically */}
+      <div className="absolute inset-0" style={{ paddingTop: "20dvh" }}>
         <div
           ref={trackRef}
           className="flex items-center gap-6 md:gap-8 will-change-transform"
           style={{
             paddingLeft: "max(var(--pad-x), calc(50vw - min(32vw, 230px)))",
             paddingRight: "max(var(--pad-x), calc(50vw - min(32vw, 230px)))",
-            height: "100%",
           }}
         >
           {caseStudies.map((cs) => (
@@ -138,7 +137,7 @@ export default function CaseStudiesPinned() {
               className="cs-card shrink-0 group block relative"
               style={{
                 width: "min(64vw, 460px)",
-                height: "min(68vh, 560px)",
+                height: "min(58vh, 500px)",
                 background: "#0c0c0c",
                 border: "1px solid rgba(255,255,255,0.08)",
                 borderRadius: "6px",
@@ -275,21 +274,21 @@ export default function CaseStudiesPinned() {
             </Link>
           ))}
         </div>
+      </div>
 
-        {/* Progress bar */}
+      {/* Progress bar */}
+      <div
+        className="hidden lg:block absolute bottom-6 left-0 right-0 z-10"
+        style={{ paddingLeft: "var(--pad-x)", paddingRight: "var(--pad-x)" }}
+      >
         <div
-          className="hidden lg:block absolute bottom-6 left-0 right-0"
-          style={{ paddingLeft: "var(--pad-x)", paddingRight: "var(--pad-x)" }}
+          className="relative h-[1px]"
+          style={{ background: "rgba(255,255,255,0.08)" }}
         >
           <div
-            className="relative h-[1px]"
-            style={{ background: "rgba(255,255,255,0.08)" }}
-          >
-            <div
-              className="cs-progress-fill absolute top-0 left-0 h-full w-full origin-left"
-              style={{ background: "rgba(255,255,255,0.6)", transform: "scaleX(0)" }}
-            />
-          </div>
+            className="cs-progress-fill absolute top-0 left-0 h-full w-full origin-left"
+            style={{ background: "rgba(255,255,255,0.6)", transform: "scaleX(0)" }}
+          />
         </div>
       </div>
     </section>

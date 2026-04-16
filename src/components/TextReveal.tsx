@@ -6,8 +6,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// ─── Constants ────────────────────────────────────────────────────────────────
-
 const WORDS = [
   "We", "don't", "just", "organise", "events.", "We", "design",
   "experiences", "that", "reflect", "your", "vision,", "coordinate",
@@ -15,28 +13,37 @@ const WORDS = [
   "that", "stay", "with", "you.",
 ];
 
-const SCATTER_RADIUS = 220;
-const SCATTER_FORCE = 140;
+const PARTICLE_COUNT = 80;
+const SCATTER_RADIUS = 180;
 
-// Background image — replace with your own event photo in /public
-// e.g. /images/text-reveal-bg.jpg
 const BG_IMAGE_URL =
   "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&w=1920&q=80";
 
-// ─── Component ────────────────────────────────────────────────────────────────
+type Particle = {
+  el: HTMLDivElement;
+  homeX: number;
+  homeY: number;
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+};
 
 export default function TextReveal() {
   const sectionRef = useRef<HTMLElement>(null);
   const bgRef = useRef<HTMLDivElement>(null);
+  const particleLayerRef = useRef<HTMLDivElement>(null);
+  const particlesRef = useRef<Particle[]>([]);
+  const mouseRef = useRef({ x: -9999, y: -9999 });
   const isRevealed = useRef(false);
   const isTouch = useRef(false);
 
-  // Detect touch device once
   useEffect(() => {
     isTouch.current = window.matchMedia("(pointer: coarse)").matches;
   }, []);
 
-  // Word reveal animation (staggered opacity on scroll enter)
+  // Word reveal animation
   useEffect(() => {
     const ctx = gsap.context(() => {
       const wordEls = sectionRef.current?.querySelectorAll(".reveal-word");
@@ -51,96 +58,111 @@ export default function TextReveal() {
           trigger: sectionRef.current,
           start: "top 55%",
           toggleActions: "play none none none",
-          onEnter: () => {
-            isRevealed.current = true;
-          },
+          onEnter: () => { isRevealed.current = true; },
         },
       });
     }, sectionRef);
-
     return () => ctx.revert();
   }, []);
 
-  // Background image clip-path widening on scroll
+  // Background clip-path widening
   useEffect(() => {
     const bg = bgRef.current;
     const section = sectionRef.current;
     if (!bg || !section) return;
-
     const ctx = gsap.context(() => {
-      gsap.fromTo(
-        bg,
-        { clipPath: "inset(0 35% 0 35%)" },
-        {
-          clipPath: "inset(0 0% 0 0%)",
-          ease: "none",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 80%",
-            end: "bottom 20%",
-            scrub: 1.2,
-          },
-        }
-      );
+      gsap.fromTo(bg, { clipPath: "inset(0 35% 0 35%)" }, {
+        clipPath: "inset(0 0% 0 0%)",
+        ease: "none",
+        scrollTrigger: { trigger: section, start: "top 80%", end: "bottom 20%", scrub: 1.2 },
+      });
     });
-
     return () => ctx.revert();
   }, []);
 
-  // Scatter physics on mouse move
-  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
-    if (isTouch.current || !isRevealed.current) return;
-    const wordEls = sectionRef.current?.querySelectorAll<HTMLElement>(".reveal-word");
-    if (!wordEls?.length) return;
+  // Spawn sparkle particles + run RAF physics
+  useEffect(() => {
+    if (isTouch.current) return;
+    const layer = particleLayerRef.current;
+    const section = sectionRef.current;
+    if (!layer || !section) return;
 
-    wordEls.forEach((el) => {
-      const rect = el.getBoundingClientRect();
-      const cx = rect.left + rect.width / 2;
-      const cy = rect.top + rect.height / 2;
-      const dx = cx - e.clientX;
-      const dy = cy - e.clientY;
-      const dist = Math.hypot(dx, dy);
+    const rect = section.getBoundingClientRect();
+    const particles: Particle[] = [];
 
-      if (dist < SCATTER_RADIUS) {
-        const force = Math.pow(1 - dist / SCATTER_RADIUS, 1.6);
-        const angle = Math.atan2(dy, dx);
-        // Slight perpendicular randomisation for organic feel
-        const perpOffset = (Math.random() - 0.5) * 0.6;
-        const pushX = Math.cos(angle + perpOffset) * force * SCATTER_FORCE * (0.6 + Math.random() * 0.8);
-        const pushY = Math.sin(angle + perpOffset) * force * SCATTER_FORCE * (0.6 + Math.random() * 0.8);
-        const rot = (Math.random() - 0.5) * force * 28;
+    for (let i = 0; i < PARTICLE_COUNT; i++) {
+      const el = document.createElement("div");
+      const size = 2 + Math.random() * 3;
+      const homeX = Math.random() * rect.width;
+      const homeY = Math.random() * rect.height;
+      Object.assign(el.style, {
+        position: "absolute",
+        width: `${size}px`,
+        height: `${size}px`,
+        borderRadius: "50%",
+        background: `rgba(255,255,255,${0.15 + Math.random() * 0.25})`,
+        left: `${homeX}px`,
+        top: `${homeY}px`,
+        pointerEvents: "none",
+        willChange: "transform",
+      });
+      layer.appendChild(el);
+      particles.push({ el, homeX, homeY, x: homeX, y: homeY, vx: 0, vy: 0, size });
+    }
+    particlesRef.current = particles;
 
-        gsap.to(el, {
-          x: pushX,
-          y: pushY,
-          rotation: rot,
-          opacity: Math.max(0.08, 1 - force * 0.75),
-          duration: 0.35,
-          ease: "power3.out",
-          overwrite: "auto",
-        });
+    let raf: number;
+    const tick = () => {
+      const sRect = section.getBoundingClientRect();
+      const mx = mouseRef.current.x - sRect.left;
+      const my = mouseRef.current.y - sRect.top;
+
+      for (const p of particles) {
+        const dx = p.x - mx;
+        const dy = p.y - my;
+        const dist = Math.hypot(dx, dy);
+
+        if (dist < SCATTER_RADIUS && dist > 1) {
+          const force = Math.pow(1 - dist / SCATTER_RADIUS, 2) * 6;
+          const angle = Math.atan2(dy, dx);
+          p.vx += Math.cos(angle) * force;
+          p.vy += Math.sin(angle) * force;
+        }
+
+        // Spring back to home
+        p.vx += (p.homeX - p.x) * 0.012;
+        p.vy += (p.homeY - p.y) * 0.012;
+
+        // Damping
+        p.vx *= 0.92;
+        p.vy *= 0.92;
+
+        p.x += p.vx;
+        p.y += p.vy;
+
+        // Opacity boost when moving fast
+        const speed = Math.hypot(p.vx, p.vy);
+        const alpha = Math.min(1, 0.2 + speed * 0.12);
+
+        p.el.style.transform = `translate(${p.x - p.homeX}px, ${p.y - p.homeY}px)`;
+        p.el.style.opacity = `${alpha}`;
       }
-    });
+      raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+
+    return () => {
+      cancelAnimationFrame(raf);
+      particles.forEach((p) => p.el.remove());
+    };
   }, []);
 
-  // Elastic spring return on mouse leave
-  const handleMouseLeave = useCallback(() => {
-    if (isTouch.current || !isRevealed.current) return;
-    const wordEls = sectionRef.current?.querySelectorAll<HTMLElement>(".reveal-word");
-    if (!wordEls?.length) return;
+  const handleMouseMove = useCallback((e: React.MouseEvent<HTMLElement>) => {
+    mouseRef.current = { x: e.clientX, y: e.clientY };
+  }, []);
 
-    wordEls.forEach((el, i) => {
-      gsap.to(el, {
-        x: 0,
-        y: 0,
-        rotation: 0,
-        opacity: 1,
-        duration: 1.5,
-        ease: "elastic.out(1.1, 0.45)",
-        delay: i * 0.012,
-        overwrite: "auto",
-      });
-    });
+  const handleMouseLeave = useCallback(() => {
+    mouseRef.current = { x: -9999, y: -9999 };
   }, []);
 
   return (
@@ -151,17 +173,12 @@ export default function TextReveal() {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
-      {/* ── Scroll-widening background image ── */}
+      {/* Scroll-widening background */}
       <div
         ref={bgRef}
         className="absolute inset-0 pointer-events-none"
-        style={{
-          clipPath: "inset(0 35% 0 35%)",
-          willChange: "clip-path",
-          borderRadius: "clamp(0px, 1.5vw, 16px)",
-        }}
+        style={{ clipPath: "inset(0 35% 0 35%)", willChange: "clip-path", borderRadius: "clamp(0px, 1.5vw, 16px)" }}
       >
-        {/* Event atmosphere photo */}
         <img
           src={BG_IMAGE_URL}
           alt=""
@@ -169,17 +186,18 @@ export default function TextReveal() {
           className="absolute inset-0 w-full h-full object-cover"
           style={{ userSelect: "none" }}
         />
-        {/* Dark scrim so text stays readable at all widths */}
         <div
           className="absolute inset-0"
           style={{
-            background:
-              "linear-gradient(to bottom, rgba(8,8,8,0.78) 0%, rgba(8,8,8,0.68) 50%, rgba(8,8,8,0.82) 100%)",
+            background: "linear-gradient(to bottom, rgba(8,8,8,0.78) 0%, rgba(8,8,8,0.68) 50%, rgba(8,8,8,0.82) 100%)",
           }}
         />
       </div>
 
-      {/* ── Text content ── */}
+      {/* Sparkle particle layer */}
+      <div ref={particleLayerRef} className="absolute inset-0 pointer-events-none z-[1]" />
+
+      {/* Text — words stay in place, don't scatter */}
       <div
         className="relative z-10 w-full flex justify-center"
         style={{ paddingLeft: "var(--pad-x)", paddingRight: "var(--pad-x)" }}
@@ -200,12 +218,7 @@ export default function TextReveal() {
               <span
                 key={i}
                 className="reveal-word text-[#f5f5f0]"
-                style={{
-                  opacity: 0.08,
-                  display: "inline-block",
-                  willChange: "transform",
-                  transformOrigin: "center center",
-                }}
+                style={{ opacity: 0.08, display: "inline-block" }}
               >
                 {word}
               </span>

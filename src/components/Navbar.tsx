@@ -1,7 +1,12 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useCallback } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { useContactModal } from "@/components/providers/ModalProvider";
+
+gsap.registerPlugin(ScrollTrigger, ScrollSmoother);
 
 const navLinks = [
   { label: "Services", href: "#services" },
@@ -27,6 +32,17 @@ export default function Navbar() {
     document.body.style.overflow = menuOpen ? "hidden" : "";
   }, [menuOpen]);
 
+  const scrollTo = useCallback((e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    e.preventDefault();
+    const smoother = ScrollSmoother.get();
+    if (smoother) {
+      smoother.scrollTo(href, true, "top top");
+    } else {
+      const el = document.querySelector(href);
+      el?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, []);
+
   return (
     <>
       <nav
@@ -41,7 +57,7 @@ export default function Navbar() {
           style={{ paddingLeft: "clamp(1.5rem, 7vw, 7rem)", paddingRight: "clamp(1.5rem, 7vw, 7rem)" }}
         >
           {/* Logo */}
-          <a href="#hero" className="flex items-center gap-3 shrink-0">
+          <a href="#hero" onClick={(e) => scrollTo(e, "#hero")} className="flex items-center gap-3 shrink-0">
             <span
               className="text-white tracking-tight"
               style={{
@@ -65,6 +81,7 @@ export default function Navbar() {
               <a
                 key={link.label}
                 href={link.href}
+                onClick={(e) => scrollTo(e, link.href)}
                 className="link-hover text-[rgba(255,255,255,0.65)] hover:text-white transition-colors duration-300"
                 style={{
                   fontFamily: "var(--font-body)",
@@ -129,7 +146,7 @@ export default function Navbar() {
                 transform: menuOpen ? "translateY(0)" : "translateY(20px)",
                 transition: `all 0.5s var(--ease-out-expo) ${0.1 + i * 0.08}s`,
               }}
-              onClick={() => setMenuOpen(false)}
+              onClick={(e) => { setMenuOpen(false); scrollTo(e, link.href); }}
             >
               {link.label}
             </a>

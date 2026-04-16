@@ -3,29 +3,9 @@
 import { useEffect, useRef, useCallback } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { testimonials as testimonialsData } from "@/data/testimonials";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const testimonials = [
-  {
-    quote:
-      "PlanBerry didn't just plan our product launch — they created a theatrical experience that had the tech press talking for weeks. The attention to detail was otherworldly.",
-    name: "Priya Sharma",
-    title: "Series A, TechFlow",
-  },
-  {
-    quote:
-      "Our wedding felt like stepping into a dream we never knew we had. Every flower, every light, every note of music was placed with intention. 11 out of 10.",
-    name: "Arjun & Meera Reddy",
-    title: "Wedding, December 2025",
-  },
-  {
-    quote:
-      "They transformed our annual gala from a routine corporate dinner into an immersive journey through our company's history. Standing ovation from 2,000 guests.",
-    name: "Vikram Mehta",
-    title: "CEO, Meridian Group",
-  },
-];
 
 // ─── Tilt card ────────────────────────────────────────────────────────────────
 
@@ -162,15 +142,15 @@ export default function Testimonials() {
     <section
       ref={sectionRef}
       id="testimonials"
-      className="relative"
-      style={{ background: "#080808" }}
+      className="relative overflow-hidden"
+      style={{ background: "#080808", height: "100dvh", minHeight: 580 }}
     >
-      {/* Section header — stays stationary while cards scroll horizontally */}
+      {/* Section label */}
       <div
+        className="absolute top-0 left-0 z-10"
         style={{
-          paddingTop: "clamp(6rem, 10vh, 10rem)",
+          paddingTop: "clamp(2rem, 3.5vh, 3rem)",
           paddingLeft: "var(--pad-x)",
-          paddingBottom: "clamp(2.5rem, 5vh, 4rem)",
         }}
       >
         <span
@@ -181,61 +161,57 @@ export default function Testimonials() {
         </span>
       </div>
 
-      {/*
-       * Horizontal track — flex row, no wrap.
-       * On desktop: GSAP translates this element left as the section is pinned.
-       * On mobile:  it wraps naturally into a vertical stack.
-       */}
-      <div
-        ref={trackRef}
-        className="flex md:flex-nowrap flex-wrap gap-6 will-change-transform"
-        style={{
-          paddingLeft: "var(--pad-x)",
-          paddingRight: "var(--pad-x)",
-          paddingBottom: "clamp(6rem, 10vh, 10rem)",
-        }}
-      >
-        {testimonials.map((t) => (
-          <TiltCard key={t.name}>
-            <div
-              className="testimonial-card rounded-[10px] p-8 md:p-10 lg:p-12 flex flex-col justify-between"
-              style={{
-                background: "#111",
-                /* Fixed card width on desktop so the horizontal distance is predictable */
-                width: "clamp(300px, 38vw, 520px)",
-                flexShrink: 0,
-                minHeight: "340px",
-              }}
-            >
-              <blockquote
-                className="text-base md:text-lg leading-[1.8] mb-10 text-white"
+      <div className="absolute inset-0" style={{ paddingTop: "20dvh" }}>
+        <div
+          ref={trackRef}
+          className="flex md:flex-nowrap flex-wrap items-center gap-6 md:gap-8 will-change-transform"
+          style={{
+            paddingLeft: "max(var(--pad-x), calc(50vw - min(17vw, 220px)))",
+            paddingRight: "max(var(--pad-x), calc(50vw - min(17vw, 220px)))",
+          }}
+        >
+          {testimonialsData.map((t) => (
+            <TiltCard key={t.author}>
+              <div
+                className="testimonial-card rounded-[10px] p-7 md:p-9 lg:p-10 flex flex-col justify-between"
                 style={{
-                  fontFamily: "var(--font-display)",
-                  fontWeight: 400,
-                  fontStyle: "italic",
-                  fontVariationSettings: "'SOFT' 80, 'WONK' 1",
+                  background: "#111",
+                  border: "1px solid rgba(255,255,255,0.06)",
+                  width: "clamp(280px, 34vw, 440px)",
+                  flexShrink: 0,
+                  minHeight: "300px",
                 }}
               >
-                &ldquo;{t.quote}&rdquo;
-              </blockquote>
+                <blockquote
+                  className="text-[0.95rem] md:text-base leading-[1.8] mb-8 text-white"
+                  style={{
+                    fontFamily: "var(--font-display)",
+                    fontWeight: 400,
+                    fontStyle: "italic",
+                    fontVariationSettings: "'SOFT' 80, 'WONK' 1",
+                  }}
+                >
+                  &ldquo;{t.quote}&rdquo;
+                </blockquote>
 
-              <div>
-                <p
-                  className="text-sm text-[#f5f5f0]"
-                  style={{ fontFamily: "var(--font-body)", fontWeight: 500 }}
-                >
-                  {t.name}
-                </p>
-                <p
-                  className="text-xs text-[#666] mt-1.5"
-                  style={{ fontFamily: "var(--font-body)", fontWeight: 300 }}
-                >
-                  {t.title}
-                </p>
+                <div>
+                  <p
+                    className="text-sm text-[#f5f5f0]"
+                    style={{ fontFamily: "var(--font-body)", fontWeight: 500 }}
+                  >
+                    {t.author}
+                  </p>
+                  <p
+                    className="text-xs text-[#666] mt-1"
+                    style={{ fontFamily: "var(--font-body)", fontWeight: 300 }}
+                  >
+                    {t.role}, {t.company}
+                  </p>
+                </div>
               </div>
-            </div>
-          </TiltCard>
-        ))}
+            </TiltCard>
+          ))}
+        </div>
       </div>
     </section>
   );

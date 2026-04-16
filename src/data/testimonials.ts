@@ -34,4 +34,25 @@ export const testimonials: Testimonial[] = [
     role: "COO",
     company: "Lumen",
   },
+  {
+    quote:
+      "We set an ambitious fundraising target. Planberry built an evening that blew past it — every moment felt intentional.",
+    author: "Anjali Prasad",
+    role: "Director",
+    company: "Aurora Foundation",
+  },
+  {
+    quote:
+      "Three days, 42 speakers, zero hiccups. That kind of execution doesn't happen by accident.",
+    author: "Dr. Kavya Iyer",
+    role: "Chief of Events",
+    company: "Veda Health",
+  },
+  {
+    quote:
+      "The opening number had people in tears before dinner started. That's when we knew we'd picked the right team.",
+    author: "Saanvi Rao",
+    role: "Bride",
+    company: "Saanvi Wedding",
+  },
 ];

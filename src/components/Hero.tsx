@@ -4,7 +4,6 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type HlsType from "hls.js";
-import BlueprintOverlay from "./BlueprintOverlay";
 import { useContactModal } from "@/components/providers/ModalProvider";
 
 gsap.registerPlugin(ScrollTrigger);
@@ -205,9 +204,6 @@ export default function Hero() {
         loop
         playsInline
       />
-
-      {/* Blueprint overlay — amoeba reveal on hover */}
-      {!uiHidden && <BlueprintOverlay />}
 
       {/* Gradient overlay */}
       <div
