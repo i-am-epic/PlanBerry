@@ -43,19 +43,21 @@ html {
   scroll-behavior: auto;
 }
 
-/* ScrollSmoother — wrapper is fixed/clipped; content is CSS-transformed */
-#smooth-wrapper {
-  overflow: hidden;
-  position: fixed;
-  height: 100%;
-  width: 100%;
-  top: 0;
-  left: 0;
-}
+/* ScrollSmoother — only active on desktop where the JS creates it */
+@media (min-width: 900px) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  #smooth-wrapper {
+    overflow: hidden;
+    position: fixed;
+    height: 100%;
+    width: 100%;
+    top: 0;
+    left: 0;
+  }
 
-#smooth-content {
-  overflow: visible;
-  width: 100%;
+  #smooth-content {
+    overflow: visible;
+    width: 100%;
+  }
 }
 
 body {

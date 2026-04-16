@@ -142,7 +142,7 @@ export default function Testimonials() {
     <section
       ref={sectionRef}
       id="testimonials"
-      className="relative overflow-hidden"
+      className="relative overflow-hidden grid content-center"
       style={{ background: "#080808", height: "100dvh", minHeight: 580 }}
     >
       {/* Section label */}
@@ -161,15 +161,14 @@ export default function Testimonials() {
         </span>
       </div>
 
-      <div className="absolute inset-0" style={{ paddingTop: "20dvh" }}>
-        <div
-          ref={trackRef}
-          className="flex md:flex-nowrap flex-wrap items-center gap-6 md:gap-8 will-change-transform"
-          style={{
-            paddingLeft: "max(var(--pad-x), calc(50vw - min(17vw, 220px)))",
-            paddingRight: "max(var(--pad-x), calc(50vw - min(17vw, 220px)))",
-          }}
-        >
+      <div
+        ref={trackRef}
+        className="flex md:flex-nowrap flex-wrap items-center gap-6 md:gap-8 will-change-transform"
+        style={{
+          paddingLeft: "max(var(--pad-x), calc(50vw - min(17vw, 220px)))",
+          paddingRight: "max(var(--pad-x), calc(50vw - min(17vw, 220px)))",
+        }}
+      >
           {testimonialsData.map((t) => (
             <TiltCard key={t.author}>
               <div
@@ -212,7 +211,6 @@ export default function Testimonials() {
             </TiltCard>
           ))}
         </div>
-      </div>
     </section>
   );
 }
