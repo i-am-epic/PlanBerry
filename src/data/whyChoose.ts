@@ -7,31 +7,31 @@ export type WhyChooseItem = {
 export const whyChoose: WhyChooseItem[] = [
   {
     number: "01",
-    title: "Proven Expertise",
+    title: "Corporate & Wedding Expertise",
     description:
-      "Deep experience across corporate events and curated social celebrations — the playbook is earned, not borrowed.",
+      "Deep, focused experience across corporate events and wedding celebrations — the playbook is earned, not borrowed.",
   },
   {
     number: "02",
-    title: "Tailored Solutions",
+    title: "Customized Event Solutions",
     description:
-      "Every plan is aligned with business objectives and the specifics of your audience — never off-the-shelf.",
+      "Every plan is tailored to your goals, your audience, and your story — never off-the-shelf.",
   },
   {
     number: "03",
     title: "End-to-End Management",
     description:
-      "Clear timelines, single point of accountability, and complete ownership from concept to closing credits.",
+      "Clear timelines, a single point of accountability, and complete ownership from concept to closing credits.",
   },
   {
     number: "04",
-    title: "Reliable Coordination",
+    title: "Reliable Vendor Coordination",
     description:
       "A vetted bench of vendors and production partners — the right team assembled for the right event, every time.",
   },
   {
     number: "05",
-    title: "Quality & Consistency",
+    title: "Consistent Quality & Execution",
     description:
       "A strong focus on professionalism, polish, and the small details that separate a good event from a memorable one.",
   },

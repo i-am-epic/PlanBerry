@@ -45,47 +45,40 @@ export default function CTA() {
         }
       });
 
-      // ── Pinned scrub timeline ───────────────────────────────────────────
+      // ── Entrance timeline ───────────────────────────────────────────
       const tl = gsap.timeline({
         scrollTrigger: {
           trigger: section,
-          pin: true,
-          start: "top top",
-          end: "+=600",
-          scrub: 1.4,
-          invalidateOnRefresh: true,
+          start: "top 80%",
+          toggleActions: "play none none reverse",
         },
       });
 
-      // Initial states
-      gsap.set(labelRef.current, { opacity: 0, y: 12 });
-      gsap.set(allChars, { yPercent: 120, rotationX: -80, opacity: 0, filter: "blur(6px)" });
-      gsap.set(paraRef.current, { opacity: 0, y: 16 });
-      gsap.set(buttonsRef.current, { opacity: 0, y: 18 });
+      // Initial states are handled by from() tweens in the timeline
 
       // 1. Label slides up
-      tl.to(labelRef.current, { opacity: 1, y: 0, ease: "power2.out", duration: 0.22 });
+      tl.from(labelRef.current, { opacity: 0, y: 12, ease: "power2.out", duration: 0.6 });
 
       // 2. Heading — characters reveal with 3D flip + unblur, staggered
-      tl.to(
+      tl.from(
         allChars,
         {
-          yPercent: 0,
-          rotationX: 0,
-          opacity: 1,
-          filter: "blur(0px)",
+          yPercent: 120,
+          rotationX: -80,
+          opacity: 0,
+          filter: "blur(6px)",
           ease: "expo.out",
-          duration: 0.9,
+          duration: 1.2,
           stagger: { each: 0.012, from: "start" },
         },
-        "-=0.05"
+        "-=0.3"
       );
 
       // 3. Para fades in after heading
-      tl.to(paraRef.current, { opacity: 1, y: 0, ease: "power2.out", duration: 0.28 }, "-=0.2");
+      tl.from(paraRef.current, { opacity: 0, y: 16, ease: "power2.out", duration: 0.8 }, "-=0.4");
 
       // 4. Buttons
-      tl.to(buttonsRef.current, { opacity: 1, y: 0, ease: "expo.out", duration: 0.3 }, "-=0.1");
+      tl.from(buttonsRef.current, { opacity: 0, y: 18, ease: "expo.out", duration: 0.8 }, "-=0.3");
     }, sectionRef);
 
     return () => ctx.revert();
@@ -94,9 +87,8 @@ export default function CTA() {
   return (
     <section
       ref={sectionRef}
-      id="contact"
-      className="relative flex items-center justify-center overflow-hidden"
-      style={{ height: "100dvh", minHeight: 600 }}
+      className="relative flex items-center justify-center overflow-hidden flex-1"
+      style={{ minHeight: 500 }}
     >
       <div className="section-center pad-x" style={{ maxWidth: "100%" }}>
 
@@ -164,9 +156,9 @@ export default function CTA() {
             textAlign: "center",
           }}
         >
-          Whether it&apos;s a corporate conference for 500 or an intimate house-warming
-          for 50 — we bring the same care, precision, and professionalism to every
-          event we manage.
+          Whether it&apos;s a high-impact corporate event or a once-in-a-lifetime
+          wedding, Planberry Events delivers experiences that are seamless, elegant,
+          and unforgettable.
         </p>
 
         {/* Buttons */}
@@ -186,8 +178,8 @@ export default function CTA() {
               <path d="M7 17L17 7M17 7H7M17 7v10" />
             </svg>
           </MagneticButton>
-          <a href="tel:+918012345678" className="btn-secondary">
-            +91 80 1234 5678
+          <a href="tel:+918867659549" className="btn-secondary">
+            +91 88676 59549
           </a>
         </div>
       </div>

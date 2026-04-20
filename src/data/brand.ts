@@ -1,20 +1,26 @@
 export const brand = {
   name: "Planberry Events",
   shortName: "Planberry",
-  tagline: "Every event has a story to tell. We help you tell it right.",
+  tagline: "Crafting experiences. Delivering moments.",
   positioning:
-    "Planberry Events is a full-service event management company that brings people and ideas together through thoughtfully planned corporate experiences and meaningful personal celebrations.",
+    "Planberry Events is a full-service event management company specializing in corporate experiences and wedding celebrations — bringing ideas to life through thoughtful planning and seamless execution.",
   vision:
-    "To be a trusted event partner that transforms ideas into meaningful experiences, delivering every corporate and personal event with creativity, excellence, and integrity.",
+    "To be a trusted event partner that transforms ideas into meaningful and memorable experiences through creativity, excellence, and integrity.",
   mission:
-    "To thoughtfully plan and execute events that run seamlessly from start to finish — combining strategic planning with creative execution and careful coordination, so our clients enjoy a stress-free, meaningful, and memorable event.",
+    "To plan and execute events that run effortlessly from start to finish. By combining strategic thinking with creative execution, we ensure every event exceeds expectations — so our clients enjoy a stress-free and unforgettable experience.",
   about:
-    "Planberry Events is a professional event management company specializing in corporate events and thoughtfully curated social celebrations. With a strong emphasis on planning, coordination, and execution, we bring structure to creative ideas and clarity to complex requirements.",
-  email: "hello@planberry.in",
-  phone: "+91 80 1234 5678",
+    "At Planberry Events, we believe every event has a story to tell. We don't just organize events — we design experiences that reflect your purpose, your people, and your vision, delivered with creativity, precision, and professionalism.",
+  promise:
+    "Whether it's a high-impact corporate event or a once-in-a-lifetime wedding, Planberry Events delivers experiences that are seamless, elegant, and unforgettable.",
+  email: "contact@planberryevents.com",
+  phones: [
+    { name: "Jayanth", number: "+91 88676 59549", tel: "+918867659549" },
+    { name: "Revanth", number: "+91 97317 37771", tel: "+919731737771" },
+  ],
   address: {
-    line1: "Level 12, Prestige Trade Tower",
-    line2: "Palace Road, Bangalore",
-    line3: "Karnataka 560001",
+    line1: "#211, 4th C Cross, HRBR 3rd Block",
+    line2: "Kalyan Nagar, Bangalore",
+    line3: "Karnataka 560043",
   },
+  instagram: "https://instagram.com/planberryevents",
 };

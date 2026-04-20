@@ -108,8 +108,9 @@ export default function Stats() {
   return (
     <section
       ref={sectionRef}
-      className="relative overflow-hidden"
-      style={{ padding: "clamp(5rem, 9vh, 8rem) 0", background: "#080808" }}
+      id="stats"
+      className="panel relative overflow-hidden"
+      style={{ background: "var(--bg-primary)" }}
     >
       {/* Top / bottom separator lines */}
       <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: "rgba(255,255,255,0.07)" }} />
@@ -125,7 +126,7 @@ export default function Stats() {
             fontSize: "0.7rem",
             letterSpacing: "0.2em",
             textTransform: "uppercase",
-            color: "#555",
+            color: "var(--text-muted)",
           }}>
             By the Numbers
           </span>
@@ -160,7 +161,7 @@ export default function Stats() {
                 fontWeight: 500,
                 letterSpacing: "0.1em",
                 textTransform: "uppercase",
-                color: "#666",
+                color: "var(--text-muted)",
                 border: "1px solid rgba(255,255,255,0.1)",
                 marginBottom: "clamp(1.25rem, 3vh, 2rem)",
               }}>
@@ -174,7 +175,7 @@ export default function Stats() {
                 fontSize: "clamp(3rem, 6vw, 6.5rem)",
                 fontVariationSettings: "'SOFT' 20, 'WONK' 0",
                 lineHeight: 1,
-                color: "#ffffff",
+                color: "var(--accent-cream)",
                 letterSpacing: "-0.02em",
                 marginBottom: "0.75rem",
               }}>
@@ -188,7 +189,7 @@ export default function Stats() {
                 fontSize: "0.72rem",
                 letterSpacing: "0.12em",
                 textTransform: "uppercase",
-                color: "#555",
+                color: "var(--text-muted)",
               }}>
                 {stat.label}
               </p>
@@ -200,12 +201,12 @@ export default function Stats() {
         <div className="marquee-wrap" style={{ position: "relative", overflow: "hidden" }}>
           <div style={{
             position: "absolute", left: 0, top: 0, bottom: 0, width: "6rem",
-            background: "linear-gradient(to right, #080808, transparent)",
+            background: "linear-gradient(to right, #141e1c, transparent)",
             zIndex: 10, pointerEvents: "none",
           }} />
           <div style={{
             position: "absolute", right: 0, top: 0, bottom: 0, width: "6rem",
-            background: "linear-gradient(to left, #080808, transparent)",
+            background: "linear-gradient(to left, #141e1c, transparent)",
             zIndex: 10, pointerEvents: "none",
           }} />
           <div className="animate-marquee" style={{ display: "flex", alignItems: "center", gap: "5rem", whiteSpace: "nowrap" }}>
@@ -216,13 +217,13 @@ export default function Stats() {
                 fontSize: "0.72rem",
                 letterSpacing: "0.15em",
                 textTransform: "uppercase",
-                color: "#3a3a3a",
+                color: "var(--text-muted)",
                 cursor: "default",
                 userSelect: "none",
                 transition: "color 0.4s",
               }}
-                onMouseEnter={(e) => { (e.target as HTMLElement).style.color = "#888"; }}
-                onMouseLeave={(e) => { (e.target as HTMLElement).style.color = "#3a3a3a"; }}
+                onMouseEnter={(e) => { (e.target as HTMLElement).style.color = "var(--text-secondary)"; }}
+                onMouseLeave={(e) => { (e.target as HTMLElement).style.color = "var(--text-muted)"; }}
               >
                 {logo}
               </span>

@@ -11,33 +11,33 @@ export type ServiceCategory = {
 export const coreServices: ServiceCategory[] = [
   {
     id: "corporate",
-    badge: "PRIMARY FOCUS",
+    badge: "OUR EXPERTISE",
     title: "Corporate",
     italic: "Events",
     tagline: "Strategy meets seamless execution.",
     description:
-      "High-impact corporate experiences engineered to meet business objectives — from intimate board offsites to flagship product launches.",
+      "High-impact corporate experiences engineered to meet business objectives — from boardroom conferences and product launches to team offsites and award nights.",
     capabilities: [
       "Corporate Meetings & Conferences",
       "Product Launches & Brand Activations",
       "Annual Days & Award Ceremonies",
       "Team-Building Events & Offsites",
-      "Corporate Parties & Client Engagement",
+      "Corporate Parties & Client Engagements",
       "AV, Stage & Technical Production",
     ],
   },
   {
     id: "social",
     badge: "CELEBRATIONS",
-    title: "Social &",
-    italic: "Seasonal",
+    title: "Weddings &",
+    italic: "Celebrations",
     tagline: "Every moment, beautifully orchestrated.",
     description:
-      "Thoughtfully curated personal celebrations — from the quiet rituals of a house warming to the full scale of a wedding week.",
+      "Thoughtfully curated personal celebrations — from sangeet nights and grand receptions to intimate housewarmings and festive gatherings.",
     capabilities: [
       "Weddings & Sangeet Ceremonies",
       "Engagements & Receptions",
-      "House Warming Ceremonies",
+      "Housewarming Celebrations",
       "Festive & Cultural Events",
       "Photography & Videography",
       "Entertainment & Special Effects",
@@ -55,14 +55,14 @@ export type MediaPillar = {
 export const mediaProduction: MediaPillar[] = [
   {
     id: "av",
-    title: "Audio-Visual Production",
+    title: "Audio-Visual Excellence",
     summary:
-      "Cutting-edge AV solutions that keep every guest engaged and every message crystal-clear.",
+      "AV solutions that keep every guest engaged and every message crystal-clear.",
     items: [
-      "High-definition LED walls & projection systems",
-      "Professional sound systems & microphones",
-      "Live video mixing and switching",
-      "Event recording and highlight videos",
+      "LED walls & projection systems",
+      "Professional sound & microphone setups",
+      "Live video mixing & event recording",
+      "Highlight reels & recap videos",
     ],
   },
   {
@@ -72,32 +72,33 @@ export const mediaProduction: MediaPillar[] = [
       "A production team that handles every technical detail with precision — so the room looks effortless.",
     items: [
       "Stage design & fabrication",
-      "Lighting design (ambient, intelligent, effect)",
-      "Rigging and trussing systems",
-      "Power backup and technical support",
+      "Lighting design & effects",
+      "Rigging, trussing & power solutions",
+      "On-site technical support",
     ],
   },
   {
     id: "photo",
     title: "Photography & Videography",
     summary:
-      "Expert visual storytelling that captures the tone, the faces, and the story of the day.",
+      "Visual storytelling that captures the tone, the faces, and the story of the day.",
     items: [
-      "Event photography (corporate, weddings, concerts)",
-      "Cinematic videography",
-      "Drone shoots (where permitted)",
-      "Post-production editing and reels",
+      "Professional event photography",
+      "Cinematic videos & drone shoots",
+      "Highlight reels & post-production",
+      "Same-day edits on request",
     ],
   },
   {
     id: "entertainment",
-    title: "Entertainment Production",
+    title: "Entertainment Solutions",
     summary:
       "Curated entertainment and atmosphere — the moments your guests will actually remember.",
     items: [
-      "DJ setups and live music production",
-      "Artist management and technical riders",
-      "Special effects — fog, lasers, confetti, pyrotechnics",
+      "DJs & live music",
+      "Artist management",
+      "Special effects — confetti, lasers, fog, pyrotechnics",
+      "Custom performance acts",
     ],
   },
 ];

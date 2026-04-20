@@ -14,6 +14,10 @@ type Props = {
   height?: string;
   /** Direction the track drifts. */
   direction?: "left" | "right";
+  /** Optional id for the root element. */
+  id?: string;
+  /** If true, section is 100dvh and centered. */
+  fullscreen?: boolean;
 };
 
 /**
@@ -27,6 +31,8 @@ export default function MarqueeDivider({
   accent,
   height = "clamp(6rem, 14vh, 12rem)",
   direction = "left",
+  id,
+  fullscreen = false,
 }: Props) {
   const rootRef = useRef<HTMLDivElement>(null);
   const trackRef = useRef<HTMLDivElement>(null);
@@ -44,17 +50,17 @@ export default function MarqueeDivider({
     const isTouch = window.matchMedia("(pointer: coarse)").matches;
 
     const ctx = gsap.context(() => {
-      const sign = direction === "left" ? -1 : 1;
-
-      // Base autonomous drift — loops seamlessly because the track content is
-      // duplicated (first half ≡ second half). We animate x from 0 → -width/2
-      // then reset. GSAP handles the loop via repeat:-1.
+      // Track content is duplicated (first half ≡ second half), so the seamless
+      // loop range is a shift of exactly halfWidth in the drift direction.
+      //   left  → animate from  0          to  -halfWidth  (content slides left)
+      //   right → animate from -halfWidth  to   0          (content slides right;
+      //           the duplicate half covers the left as the original slides out)
       const halfWidth = () => track.scrollWidth / 2;
       const baseTween = gsap.fromTo(
         track,
-        { x: 0 },
+        { x: direction === "right" ? () => -halfWidth() : 0 },
         {
-          x: () => sign * halfWidth(),
+          x: direction === "right" ? 0 : () => -halfWidth(),
           duration: 34,
           ease: "none",
           repeat: -1,
@@ -169,14 +175,16 @@ export default function MarqueeDivider({
   return (
     <div
       ref={rootRef}
+      id={id}
       aria-hidden
-      className="relative w-full overflow-hidden select-none"
+      className={`relative w-full overflow-hidden select-none${fullscreen ? " panel" : ""}`}
       style={{
-        height,
-        background: "#080808",
+        height: fullscreen ? "100dvh" : height,
+        background: "var(--bg-primary)",
         borderTop: "1px solid rgba(255,255,255,0.06)",
         borderBottom: "1px solid rgba(255,255,255,0.06)",
         ["--mq-soft" as string]: "50",
+        ...(fullscreen ? { display: "flex", alignItems: "center" } : {}),
       }}
     >
       {/* Edge fade masks */}
@@ -184,14 +192,14 @@ export default function MarqueeDivider({
         className="absolute left-0 top-0 bottom-0 z-10 pointer-events-none"
         style={{
           width: "min(18vw, 14rem)",
-          background: "linear-gradient(to right, #080808 0%, rgba(8,8,8,0) 100%)",
+          background: "linear-gradient(to right, #141e1c 0%, rgba(20,30,28,0) 100%)",
         }}
       />
       <div
         className="absolute right-0 top-0 bottom-0 z-10 pointer-events-none"
         style={{
           width: "min(18vw, 14rem)",
-          background: "linear-gradient(to left, #080808 0%, rgba(8,8,8,0) 100%)",
+          background: "linear-gradient(to left, #141e1c 0%, rgba(20,30,28,0) 100%)",
         }}
       />
 

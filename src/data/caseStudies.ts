@@ -20,7 +20,7 @@ export const caseStudies: CaseStudy[] = [
     year: "2025",
     location: "Taj West End, Bangalore",
     image:
-      "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=1600&q=80&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=600&q=65&auto=format&fit=crop",
     summary:
       "End-to-end production for Helix's flagship annual day — 1,200 guests, hybrid livestream, 12 vendor partners, one unified run-of-show.",
     metrics: [
@@ -42,7 +42,7 @@ export const caseStudies: CaseStudy[] = [
     year: "2025",
     location: "Ritz-Carlton, Bangalore",
     image:
-      "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=1600&q=80&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&q=65&auto=format&fit=crop",
     summary:
       "Concept-to-stage production for Northwind's flagship launch — a 45-minute keynote, 8-camera multicam, and a bespoke LED stage.",
     metrics: [
@@ -64,7 +64,7 @@ export const caseStudies: CaseStudy[] = [
     year: "2025",
     location: "The Leela Palace, Bangalore",
     image:
-      "https://images.unsplash.com/photo-1519741497674-611481863552?w=1600&q=80&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=65&auto=format&fit=crop",
     summary:
       "A 3-day celebration — sangeet, mehendi, reception — coordinated across 3 venues with a single creative thread running through every moment.",
     metrics: [
@@ -86,7 +86,7 @@ export const caseStudies: CaseStudy[] = [
     year: "2024",
     location: "ITC Gardenia, Bangalore",
     image:
-      "https://images.unsplash.com/photo-1511578314322-379afb476865?w=1600&q=80&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1511578314322-379afb476865?w=600&q=65&auto=format&fit=crop",
     summary:
       "Two-day leadership summit for Lumen's global leaders — custom stage, eight sessions, surprise dinner reveal on the closing night.",
     metrics: [
@@ -108,7 +108,7 @@ export const caseStudies: CaseStudy[] = [
     year: "2024",
     location: "The Oberoi, Bangalore",
     image:
-      "https://images.unsplash.com/photo-1530023367847-a683933f4172?w=1600&q=80&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1530023367847-a683933f4172?w=600&q=65&auto=format&fit=crop",
     summary:
       "Black-tie gala for 320 patrons — a live auction, string quartet, and a closing performance that took the room to its feet.",
     metrics: [
@@ -130,7 +130,7 @@ export const caseStudies: CaseStudy[] = [
     year: "2024",
     location: "Sheraton Grand, Bangalore",
     image:
-      "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=1600&q=80&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1475721027785-f74eccf877e2?w=600&q=65&auto=format&fit=crop",
     summary:
       "Three parallel tracks, 42 speakers, 900 delegates — a full-stack conference production from keynotes to breakouts to closing reception.",
     metrics: [
@@ -152,7 +152,7 @@ export const caseStudies: CaseStudy[] = [
     year: "2025",
     location: "Four Seasons, Bangalore",
     image:
-      "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=1600&q=80&auto=format&fit=crop",
+      "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=600&q=65&auto=format&fit=crop",
     summary:
       "Choreographed open to a 450-guest sangeet — custom thrust stage, four performance acts, and a fireworks finale synced to the final beat.",
     metrics: [

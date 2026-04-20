@@ -44,7 +44,7 @@ export default async function CaseStudyPage({
   return (
     <>
       <Navbar />
-      <main style={{ background: "#080808", minHeight: "100vh" }}>
+      <main style={{ background: "#141e1c", minHeight: "100vh" }}>
         <article>
           {/* Hero */}
           <header

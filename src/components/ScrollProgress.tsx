@@ -100,7 +100,7 @@ export default function ScrollProgress() {
           style={{
             transform: "scaleX(0)",
             background:
-              "linear-gradient(90deg, rgba(245,245,240,0.15) 0%, rgba(245,245,240,0.55) 100%)",
+              "linear-gradient(90deg, rgba(218,216,204,0.15) 0%, rgba(218,216,204,0.55) 100%)",
           }}
         />
       </div>
@@ -126,7 +126,7 @@ export default function ScrollProgress() {
             style={{
               height: 0,
               background:
-                "linear-gradient(to bottom, rgba(245,245,240,0.65) 0%, rgba(245,245,240,0.85) 100%)",
+                "linear-gradient(to bottom, rgba(218,216,204,0.65) 0%, rgba(218,216,204,0.85) 100%)",
               willChange: "height",
             }}
           />
@@ -144,7 +144,7 @@ export default function ScrollProgress() {
                   style={{
                     fontFamily: "var(--font-body)",
                     letterSpacing: "0.18em",
-                    color: isActive ? "rgba(245,245,240,0.95)" : "rgba(255,255,255,0.35)",
+                    color: isActive ? "rgba(218,216,204,0.95)" : "rgba(255,255,255,0.35)",
                     opacity: isActive ? 1 : 0,
                     transform: isActive ? "translateX(0)" : "translateX(8px)",
                     transition: "all 0.5s var(--ease-out-expo)",
@@ -161,11 +161,11 @@ export default function ScrollProgress() {
                     height: isActive ? 9 : 5,
                     marginRight: isActive ? 0 : 2,
                     background: isActive
-                      ? "#f5f5f0"
+                      ? "#dad8cc"
                       : isPassed
-                      ? "rgba(245,245,240,0.55)"
+                      ? "rgba(218,216,204,0.55)"
                       : "rgba(255,255,255,0.2)",
-                    boxShadow: isActive ? "0 0 10px rgba(245,245,240,0.5)" : "none",
+                    boxShadow: isActive ? "0 0 10px rgba(218,216,204,0.5)" : "none",
                     transition: "all 0.5s var(--ease-out-expo)",
                   }}
                 />

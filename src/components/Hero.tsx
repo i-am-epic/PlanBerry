@@ -4,7 +4,6 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type HlsType from "hls.js";
-import { useContactModal } from "@/components/providers/ModalProvider";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,7 +11,6 @@ const HLS_SRC =
   "https://stream.mux.com/BLC6VVUBEBHvYTC7x02S5iULppqcdMmsUmGHVXq02y8W8.m3u8?max_resolution=1080p&min_resolution=720p";
 
 export default function Hero() {
-  const { openContact } = useContactModal();
   const sectionRef = useRef<HTMLElement>(null);
   const headingRef = useRef<HTMLDivElement>(null);
   const rightRef = useRef<HTMLDivElement>(null);
@@ -251,8 +249,8 @@ export default function Hero() {
     <section
       ref={sectionRef}
       id="hero"
-      className="relative w-full overflow-hidden cursor-pointer"
-      style={{ height: "100dvh", minHeight: 600 }}
+      className="panel relative w-full overflow-hidden cursor-pointer"
+      style={{ height: "100dvh", minHeight: 600, paddingTop: 0 }}
       onClick={handleVideoClick}
     >
       {/* Video */}
@@ -311,53 +309,34 @@ export default function Hero() {
           pointerEvents: uiHidden ? "none" : "auto",
         }}
       >
-        {/* ── Mobile layout: centered, CTA prominent ── */}
+        {/* ── Mobile layout: centered ── */}
         <div className="md:hidden flex flex-col items-center text-center gap-5">
           <div ref={headingRef}>
             <h1
-              className="hero-h1 text-white leading-[0.9] tracking-[-0.03em]"
+              className="hero-h1 leading-[0.95] tracking-[-0.03em]"
               style={{
+                color: "var(--accent-cream)",
                 fontFamily: "var(--font-display)",
                 fontWeight: 400,
-                fontSize: "clamp(3.2rem, 13vw, 5rem)",
+                fontSize: "clamp(2rem, 7.8vw, 3.1rem)",
                 perspective: "900px",
                 ["--hero-soft" as string]: "50",
                 fontVariationSettings: "'SOFT' var(--hero-soft, 50), 'WONK' 1",
               }}
             >
-              <span data-split-word>Your</span>{" "}
-              <span data-split-word className="italic" style={{ fontVariationSettings: "'SOFT' 100, 'WONK' 1" }}>vision</span>
-              ,<br /><span data-split-word>made.</span>
+              <span data-split-word>Crafting</span>{" "}
+              <span data-split-word className="italic" style={{ fontVariationSettings: "'SOFT' 100, 'WONK' 1" }}>experiences</span>
+              .<br /><span data-split-word>Delivering</span>{" "}
+              <span data-split-word className="italic" style={{ fontVariationSettings: "'SOFT' 100, 'WONK' 1" }}>moments</span>.
             </h1>
           </div>
-          <div ref={rightRef} className="flex flex-col items-center gap-3">
-            <button
-              onClick={(e) => { e.stopPropagation(); openContact(); }}
-              className="inline-flex items-center gap-2.5 px-7 py-3.5 rounded-full text-[15px] text-[#080808] bg-[#f5f5f0] hover:bg-white transition-all duration-300"
-              style={{ fontFamily: "var(--font-body)", fontWeight: 500 }}
+          <div ref={rightRef}>
+            <p
+              className="text-[12px] leading-[1.7] mt-1"
+              style={{ fontFamily: "var(--font-body)", fontWeight: 300, color: "rgba(218,216,204,0.6)", maxWidth: "34ch" }}
             >
-              Plan my event
-              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                const video = videoRef.current;
-                if (!video) return;
-                video.muted = false;
-                setIsMuted(false);
-                setImmersiveMode(true);
-              }}
-              className="inline-flex items-center gap-2 text-[13px] text-[rgba(255,255,255,0.5)] hover:text-white transition-colors duration-300"
-              style={{ fontFamily: "var(--font-body)", fontWeight: 400 }}
-            >
-              <svg width="9" height="9" viewBox="0 0 24 24" fill="currentColor">
-                <polygon points="5,3 19,12 5,21" />
-              </svg>
-              Watch the film
-            </button>
+              Full-service event management for corporate experiences and wedding celebrations.
+            </p>
           </div>
         </div>
 
@@ -366,61 +345,35 @@ export default function Hero() {
           {/* LEFT — Headline */}
           <div ref={headingRef} className="flex-1 min-w-0 md:pl-[8%] lg:pl-[12%]">
             <h1
-              className="hero-h1 text-white leading-[0.88] tracking-[-0.03em]"
+              className="hero-h1 leading-[0.95] tracking-[-0.03em]"
               style={{
+                color: "var(--accent-cream)",
                 fontFamily: "var(--font-display)",
                 fontWeight: 400,
-                fontSize: "clamp(3.5rem, 7vw, 9rem)",
+                fontSize: "clamp(2.2rem, 4.5vw, 5rem)",
                 perspective: "900px",
                 ["--hero-soft" as string]: "50",
                 fontVariationSettings: "'SOFT' var(--hero-soft, 50), 'WONK' 1",
               }}
             >
-              <span data-split-word>Your</span>{" "}
-              <span data-split-word className="italic" style={{ fontVariationSettings: "'SOFT' 100, 'WONK' 1" }}>vision</span>
-              ,<br /><span data-split-word>made.</span>
+              <span data-split-word>Crafting</span>{" "}
+              <span data-split-word className="italic" style={{ fontVariationSettings: "'SOFT' 100, 'WONK' 1" }}>experiences</span>.<br />
+              <span data-split-word>Delivering</span>{" "}
+              <span data-split-word className="italic" style={{ fontVariationSettings: "'SOFT' 100, 'WONK' 1" }}>moments</span>.
             </h1>
           </div>
 
-          {/* RIGHT — CTA + tagline */}
+          {/* RIGHT — tagline */}
           <div
             ref={rightRef}
-            className="shrink-0 flex flex-col items-end gap-6 max-w-[380px] text-right md:pr-[8%] lg:pr-[12%]"
+            className="shrink-0 flex flex-col items-end gap-5 max-w-[380px] text-right md:pr-[8%] lg:pr-[12%]"
           >
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                const video = videoRef.current;
-                if (!video) return;
-                video.muted = false;
-                setIsMuted(false);
-                setImmersiveMode(true);
-              }}
-              className="inline-flex items-center gap-3 px-10 py-6 rounded-full text-[16px] text-white border border-[rgba(255,255,255,0.3)] bg-[rgba(0,0,0,0.3)] backdrop-blur-sm hover:bg-[rgba(0,0,0,0.5)] transition-all duration-300"
-              style={{ fontFamily: "var(--font-body)", fontWeight: 400 }}
-            >
-              <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor">
-                <polygon points="5,3 19,12 5,21" />
-              </svg>
-              Watch the film
-            </button>
-
-            <button
-              onClick={(e) => { e.stopPropagation(); openContact(); }}
-              className="inline-flex items-center gap-3 px-14 py-8 rounded-full text-[16px] text-[#080808] bg-[#f5f5f0] hover:bg-white transition-all duration-300"
-              style={{ fontFamily: "var(--font-body)", fontWeight: 500 }}
-            >
-              Plan my event
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
-                <path d="M5 12h14M12 5l7 7-7 7" />
-              </svg>
-            </button>
             <p
-              className="text-[14px] text-[rgba(255,255,255,0.5)] leading-[1.7]"
-              style={{ fontFamily: "var(--font-body)", fontWeight: 300 }}
+              className="text-[13px] leading-[1.7]"
+              style={{ fontFamily: "var(--font-body)", fontWeight: 300, color: "rgba(218,216,204,0.6)" }}
             >
-              Full-service event management for corporate experiences and
-              personal celebrations — crafted with creativity, precision, and purpose.
+              Full-service event management for corporate experiences and wedding
+              celebrations — crafted with creativity, precision, and professionalism.
             </p>
           </div>
         </div>

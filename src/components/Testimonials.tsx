@@ -88,8 +88,8 @@ export default function Testimonials() {
           scrollTrigger: {
             trigger: section,
             pin: true,
-            scrub: 1,
-            start: "top top",
+            scrub: 0.6,
+            start: "top 72px",
             end: () => `+=${getScrollDist()}`,
             invalidateOnRefresh: true,
           },
@@ -142,80 +142,127 @@ export default function Testimonials() {
     <section
       ref={sectionRef}
       id="testimonials"
-      className="relative overflow-hidden md:h-dvh md:grid md:content-center"
-      style={{
-        background: "#080808",
-        paddingTop: "clamp(5rem, 8vh, 7rem)",
-        paddingBottom: "clamp(4rem, 6vh, 5rem)",
-      }}
+      className="panel relative overflow-hidden"
+      style={{ background: "var(--bg-primary)" }}
     >
-      {/* Section label — absolute on desktop, flows on mobile */}
+      {/* ── Label: normal flow — stays at top when section is pinned ── */}
       <div
-        className="md:absolute md:top-0 md:left-0 z-10"
         style={{
-          paddingTop: "clamp(0rem, 3.5vh, 3rem)",
+          paddingTop: "clamp(2rem, 4vh, 3rem)",
           paddingLeft: "var(--pad-x)",
-          marginBottom: "clamp(2rem, 4vh, 3rem)",
+          paddingBottom: "clamp(1.5rem, 3vh, 2.5rem)",
         }}
       >
         <span
-          className="testimonials-label text-xs uppercase tracking-[0.2em] text-[#666] block"
-          style={{ fontFamily: "var(--font-body)", fontWeight: 400 }}
+          className="testimonials-label text-xs uppercase tracking-[0.2em] block"
+          style={{ fontFamily: "var(--font-body)", fontWeight: 400, color: "var(--text-muted)" }}
         >
           Client Stories
         </span>
       </div>
 
+      {/* ── Desktop track: horizontal pinned row ── */}
       <div
         ref={trackRef}
-        className="flex flex-col md:flex-row md:flex-nowrap items-center md:items-center gap-6 md:gap-8 will-change-transform"
+        className="hidden md:flex flex-row flex-nowrap items-center gap-8 will-change-transform"
         style={{
-          paddingLeft: "max(var(--pad-x), calc(50vw - min(17vw, 220px)))",
-          paddingRight: "max(var(--pad-x), calc(50vw - min(17vw, 220px)))",
+          paddingLeft: "var(--pad-x)",
+          paddingRight: "var(--pad-x)",
+          paddingBottom: "clamp(2rem, 3vh, 3rem)",
         }}
       >
-          {testimonialsData.map((t) => (
-            <TiltCard key={t.author}>
-              <div
-                className="testimonial-card rounded-[10px] p-7 md:p-9 lg:p-10 flex flex-col justify-between mx-auto md:mx-0 w-full md:w-[clamp(280px,34vw,440px)]"
+        {testimonialsData.map((t) => (
+          <TiltCard key={t.author}>
+            <div
+              className="testimonial-card rounded-[10px] p-9 lg:p-10 flex flex-col justify-between"
+              style={{
+                background: "var(--bg-card)",
+                border: "1px solid var(--border-subtle)",
+                width: "clamp(280px, 34vw, 440px)",
+                flexShrink: 0,
+                minHeight: "260px",
+              }}
+            >
+              <blockquote
+                className="text-base leading-[1.8] mb-8"
                 style={{
-                  background: "#111",
-                  border: "1px solid rgba(255,255,255,0.06)",
-                  maxWidth: "min(92vw, 440px)",
-                  flexShrink: 0,
-                  minHeight: "260px",
+                  fontFamily: "var(--font-display)",
+                  fontWeight: 400,
+                  fontStyle: "italic",
+                  fontVariationSettings: "'SOFT' 80, 'WONK' 1",
+                  color: "var(--accent-cream)",
                 }}
               >
-                <blockquote
-                  className="text-[0.95rem] md:text-base leading-[1.8] mb-8 text-white"
-                  style={{
-                    fontFamily: "var(--font-display)",
-                    fontWeight: 400,
-                    fontStyle: "italic",
-                    fontVariationSettings: "'SOFT' 80, 'WONK' 1",
-                  }}
+                &ldquo;{t.quote}&rdquo;
+              </blockquote>
+              <div>
+                <p
+                  className="text-sm"
+                  style={{ fontFamily: "var(--font-body)", fontWeight: 500, color: "var(--accent-cream)" }}
                 >
-                  &ldquo;{t.quote}&rdquo;
-                </blockquote>
-
-                <div>
-                  <p
-                    className="text-sm text-[#f5f5f0]"
-                    style={{ fontFamily: "var(--font-body)", fontWeight: 500 }}
-                  >
-                    {t.author}
-                  </p>
-                  <p
-                    className="text-xs text-[#666] mt-1"
-                    style={{ fontFamily: "var(--font-body)", fontWeight: 300 }}
-                  >
-                    {t.role}, {t.company}
-                  </p>
-                </div>
+                  {t.author}
+                </p>
+                <p
+                  className="text-xs mt-1"
+                  style={{ fontFamily: "var(--font-body)", fontWeight: 300, color: "var(--text-muted)" }}
+                >
+                  {t.role}, {t.company}
+                </p>
               </div>
-            </TiltCard>
-          ))}
-        </div>
+            </div>
+          </TiltCard>
+        ))}
+      </div>
+
+      {/* ── Mobile: vertical card stack ── */}
+      <div
+        className="md:hidden flex flex-col items-center gap-6"
+        style={{
+          paddingLeft: "var(--pad-x)",
+          paddingRight: "var(--pad-x)",
+          paddingBottom: "clamp(3rem, 6vh, 4.5rem)",
+        }}
+      >
+        {testimonialsData.map((t) => (
+          <div
+            key={t.author}
+            className="testimonial-card rounded-[10px] p-7 flex flex-col justify-between w-full"
+            style={{
+              background: "var(--bg-card)",
+              border: "1px solid var(--border-subtle)",
+              maxWidth: "min(92vw, 440px)",
+              minHeight: "260px",
+            }}
+          >
+            <blockquote
+              className="text-[0.95rem] leading-[1.8] mb-8"
+              style={{
+                fontFamily: "var(--font-display)",
+                fontWeight: 400,
+                fontStyle: "italic",
+                fontVariationSettings: "'SOFT' 80, 'WONK' 1",
+                color: "var(--accent-cream)",
+              }}
+            >
+              &ldquo;{t.quote}&rdquo;
+            </blockquote>
+            <div>
+              <p
+                className="text-sm"
+                style={{ fontFamily: "var(--font-body)", fontWeight: 500, color: "var(--accent-cream)" }}
+              >
+                {t.author}
+              </p>
+              <p
+                className="text-xs mt-1"
+                style={{ fontFamily: "var(--font-body)", fontWeight: 300, color: "var(--text-muted)" }}
+              >
+                {t.role}, {t.company}
+              </p>
+            </div>
+          </div>
+        ))}
+      </div>
     </section>
   );
 }

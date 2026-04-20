@@ -22,70 +22,58 @@ const dmSans = DM_Sans({
   weight: ["300", "400", "500", "600"],
 });
 
-const SITE_URL = "https://planberry.in";
+const SITE_URL = "https://planberryevents.com";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
   title: {
-    default: "PlanBerry — Best Event Planners & Organisers in Bangalore",
-    template: "%s | PlanBerry Events Bangalore",
+    default: "Planberry Events — Corporate & Wedding Event Management in Bangalore",
+    template: "%s | Planberry Events Bangalore",
   },
   description:
-    "PlanBerry is Bangalore's premier event management company. Expert event planners for corporate events, weddings, brand launches, conferences, and private gatherings. 150+ events delivered across Bangalore & Bengaluru. Call now.",
+    "Planberry Events is a full-service event management company in Bangalore, specializing in corporate experiences and wedding celebrations. Crafting experiences. Delivering moments.",
   keywords: [
-    "event planner Bangalore",
-    "event planner Bengaluru",
-    "event management company Bangalore",
+    "Planberry Events",
+    "event management Bangalore",
     "corporate event planner Bangalore",
     "wedding planner Bangalore",
-    "event organiser Bangalore",
-    "event planning services Bangalore",
-    "luxury event planner Bangalore",
-    "best event planner Bangalore",
-    "event management Bengaluru",
-    "corporate events Bangalore",
     "wedding event management Bangalore",
-    "brand launch event Bangalore",
-    "conference event management Bangalore",
-    "private event planner Bangalore",
-    "event decorator Bangalore",
-    "event coordinator Bangalore",
+    "sangeet planner Bangalore",
     "product launch event Bangalore",
-    "gala dinner Bangalore",
-    "event management company Bengaluru",
-    "top event planners Bangalore",
-    "luxury wedding planner Bangalore",
-    "PlanBerry",
-    "event planner near me Bangalore",
+    "brand activation Bangalore",
+    "conference planner Bangalore",
+    "event planner Kalyan Nagar",
+    "event coordinator Bangalore",
+    "housewarming planner Bangalore",
+    "stage and AV production Bangalore",
   ],
-  authors: [{ name: "PlanBerry Events Pvt. Ltd." }],
-  creator: "PlanBerry Events",
-  publisher: "PlanBerry Events Pvt. Ltd.",
+  authors: [{ name: "Planberry Events" }],
+  creator: "Planberry Events",
+  publisher: "Planberry Events",
   category: "Event Management",
   openGraph: {
     type: "website",
     locale: "en_IN",
     url: SITE_URL,
-    siteName: "PlanBerry Events",
-    title: "PlanBerry — Best Event Planners & Organisers in Bangalore",
+    siteName: "Planberry Events",
+    title: "Planberry Events — Corporate & Wedding Event Management in Bangalore",
     description:
-      "Bangalore's premier event management company. Corporate events, weddings, brand launches & private gatherings. 150+ events. Creativity, precision, purpose.",
+      "Crafting experiences. Delivering moments. Full-service event management for corporate experiences and wedding celebrations.",
     images: [
       {
         url: "/og-image.jpg",
         width: 1200,
         height: 630,
-        alt: "PlanBerry — Premium Event Planners in Bangalore",
+        alt: "Planberry Events — Corporate & Wedding Event Management",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "PlanBerry — Best Event Planners in Bangalore",
+    title: "Planberry Events — Corporate & Wedding Event Management in Bangalore",
     description:
-      "Bangalore's premier event management company. Corporate events, weddings, brand launches & private gatherings. 150+ events delivered.",
+      "Crafting experiences. Delivering moments. Corporate and wedding event management in Bangalore.",
     images: ["/og-image.jpg"],
-    creator: "@planberry_in",
   },
   robots: {
     index: true,
@@ -101,14 +89,11 @@ export const metadata: Metadata = {
   alternates: {
     canonical: SITE_URL,
   },
-  verification: {
-    google: "google-site-verification-token",
-  },
   other: {
     "geo.region": "IN-KA",
     "geo.placename": "Bangalore, Karnataka, India",
-    "geo.position": "12.9716;77.5946",
-    "ICBM": "12.9716, 77.5946",
+    "geo.position": "13.0205;77.6492",
+    "ICBM": "13.0205, 77.6492",
   },
 };
 
@@ -118,31 +103,22 @@ const jsonLd = {
     {
       "@type": ["LocalBusiness", "ProfessionalService"],
       "@id": `${SITE_URL}/#business`,
-      "name": "PlanBerry Events",
-      "alternateName": ["PlanBerry", "PlanBerry Events Pvt Ltd"],
+      "name": "Planberry Events",
+      "alternateName": ["Planberry"],
       "description":
-        "PlanBerry is Bangalore's premier event management and planning company, specialising in corporate events, weddings, brand launches, conferences, and private gatherings. Known for obsessive attention to detail and world-class production.",
+        "Planberry Events is a full-service event management company in Bangalore specializing in corporate experiences and wedding celebrations.",
       "url": SITE_URL,
-      "telephone": "+91-80-1234-5678",
-      "email": "hello@planberry.in",
-      "foundingDate": "2018",
-      "logo": {
-        "@type": "ImageObject",
-        "url": `${SITE_URL}/logo.png`,
-      },
+      "telephone": ["+91-88676-59549", "+91-97317-37771"],
+      "email": "contact@planberryevents.com",
+      "logo": { "@type": "ImageObject", "url": `${SITE_URL}/logo.png` },
       "image": `${SITE_URL}/og-image.jpg`,
       "address": {
         "@type": "PostalAddress",
-        "streetAddress": "Level 12, Prestige Trade Tower, Palace Road",
+        "streetAddress": "#211, 4th C Cross, HRBR 3rd Block, Kalyan Nagar",
         "addressLocality": "Bangalore",
         "addressRegion": "Karnataka",
-        "postalCode": "560001",
+        "postalCode": "560043",
         "addressCountry": "IN",
-      },
-      "geo": {
-        "@type": "GeoCoordinates",
-        "latitude": 12.9716,
-        "longitude": 77.5946,
       },
       "areaServed": [
         { "@type": "City", "name": "Bangalore" },
@@ -153,69 +129,27 @@ const jsonLd = {
       "serviceType": [
         "Corporate Event Management",
         "Wedding Planning",
-        "Brand Launch Events",
-        "Conference Production",
-        "Private Event Planning",
-        "Gala Dinner Organisation",
-        "AV and Stage Production",
-        "Event Decoration and Floral Design",
+        "Sangeet & Reception Planning",
+        "Product Launches & Brand Activations",
+        "Annual Days & Award Ceremonies",
+        "Team-Building Events & Offsites",
+        "Stage & Technical Production",
+        "Audio-Visual Production",
+        "Photography & Videography",
+        "Entertainment Solutions",
       ],
-      "priceRange": "₹₹₹₹",
+      "priceRange": "₹₹₹",
       "currenciesAccepted": "INR",
       "paymentAccepted": "Cash, Bank Transfer, UPI",
-      "aggregateRating": {
-        "@type": "AggregateRating",
-        "ratingValue": "4.9",
-        "reviewCount": "127",
-        "bestRating": "5",
-      },
-      "sameAs": [
-        "https://instagram.com/planberry.in",
-        "https://linkedin.com/company/planberry",
-        "https://twitter.com/planberry_in",
-      ],
+      "sameAs": ["https://instagram.com/planberryevents"],
     },
     {
       "@type": "WebSite",
       "@id": `${SITE_URL}/#website`,
       "url": SITE_URL,
-      "name": "PlanBerry Events",
-      "description": "Premium event management company in Bangalore",
+      "name": "Planberry Events",
+      "description": "Corporate & wedding event management in Bangalore",
       "publisher": { "@id": `${SITE_URL}/#business` },
-      "potentialAction": {
-        "@type": "SearchAction",
-        "target": { "@type": "EntryPoint", "urlTemplate": `${SITE_URL}/?q={search_term_string}` },
-        "query-input": "required name=search_term_string",
-      },
-    },
-    {
-      "@type": "FAQPage",
-      "mainEntity": [
-        {
-          "@type": "Question",
-          "name": "Where is PlanBerry located?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "PlanBerry is headquartered at Prestige Trade Tower, Palace Road, Bangalore, Karnataka 560001. We serve clients across Bangalore, Bengaluru, and all of India.",
-          },
-        },
-        {
-          "@type": "Question",
-          "name": "What types of events does PlanBerry plan in Bangalore?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "PlanBerry plans corporate events, conferences, summits, product launches, brand activations, weddings, private celebrations, gala dinners, and cultural festivals across Bangalore and beyond.",
-          },
-        },
-        {
-          "@type": "Question",
-          "name": "How many events has PlanBerry delivered?",
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": "PlanBerry has delivered more than 150 events for over 50 trusted clients, hosting over 8,000 guests across corporate, wedding, and cultural celebrations.",
-          },
-        },
-      ],
     },
   ],
 };
@@ -234,6 +168,7 @@ export default function RootLayout({
         <link rel="preconnect" href="https://stream.mux.com" crossOrigin="anonymous" />
         <link rel="dns-prefetch" href="https://stream.mux.com" />
         <link rel="preconnect" href="https://images.unsplash.com" />
+        <link rel="preconnect" href="https://storage.googleapis.com" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

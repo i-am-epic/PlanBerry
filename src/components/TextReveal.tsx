@@ -17,7 +17,7 @@ const PARTICLE_COUNT = 80;
 const SCATTER_RADIUS = 180;
 
 const BG_IMAGE_URL =
-  "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&w=1920&q=80";
+  "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&w=900&q=70";
 
 type Particle = {
   el: HTMLDivElement;
@@ -36,47 +36,66 @@ export default function TextReveal() {
   const particleLayerRef = useRef<HTMLDivElement>(null);
   const particlesRef = useRef<Particle[]>([]);
   const mouseRef = useRef({ x: -9999, y: -9999 });
-  const isRevealed = useRef(false);
   const isTouch = useRef(false);
 
   useEffect(() => {
     isTouch.current = window.matchMedia("(pointer: coarse)").matches;
   }, []);
 
-  // Word reveal animation
+  /*
+   * Two-scroll pinned reveal:
+   *   Scroll 1 → section pins, text stays dim/placed (user sees the layout)
+   *   Scroll 2 → words reveal one-by-one + background widens
+   *   Scroll 3 → unpin, move to next section
+   *
+   * Total pin distance = 2 × viewport height (two full "scroll pages").
+   */
   useEffect(() => {
     const ctx = gsap.context(() => {
-      const wordEls = sectionRef.current?.querySelectorAll(".reveal-word");
-      if (!wordEls?.length) return;
+      const section = sectionRef.current;
+      const bg = bgRef.current;
+      const wordEls = section?.querySelectorAll<HTMLElement>(".reveal-word");
+      if (!section || !bg || !wordEls?.length) return;
 
-      gsap.to(Array.from(wordEls), {
-        opacity: 1,
-        stagger: 0.055,
-        duration: 0.5,
-        ease: "power2.out",
+      // Master timeline scrubbed over the pinned range
+      const tl = gsap.timeline({
         scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 55%",
-          toggleActions: "play none none none",
-          onEnter: () => { isRevealed.current = true; },
+          trigger: section,
+          pin: true,
+          start: "top 72px",
+          end: "+=200%",    // 2× viewport = two scrolls
+          scrub: 0.8,
+          invalidateOnRefresh: true,
+          anticipatePin: 1,
         },
       });
-    }, sectionRef);
-    return () => ctx.revert();
-  }, []);
 
-  // Background clip-path widening
-  useEffect(() => {
-    const bg = bgRef.current;
-    const section = sectionRef.current;
-    if (!bg || !section) return;
-    const ctx = gsap.context(() => {
-      gsap.fromTo(bg, { clipPath: "inset(0 35% 0 35%)" }, {
-        clipPath: "inset(0 0% 0 0%)",
-        ease: "none",
-        scrollTrigger: { trigger: section, start: "top 80%", end: "bottom 20%", scrub: 1.2 },
-      });
-    });
+      // Phase 1 (0%–50%): first full scroll — section is visible, text stays dim.
+      // Nothing happens. Just a pause.
+      tl.to({}, { duration: 0.5 });
+
+      // Phase 2 (50%–95%): second scroll — words reveal sequentially + bg widens.
+      tl.to(
+        Array.from(wordEls),
+        {
+          opacity: 1,
+          stagger: 0.02,
+          duration: 0.4,
+          ease: "power2.out",
+        },
+        0.5
+      );
+
+      tl.fromTo(
+        bg,
+        { clipPath: "inset(0 35% 0 35%)" },
+        { clipPath: "inset(0 0% 0 0%)", ease: "power1.inOut", duration: 0.45 },
+        0.5
+      );
+
+      // Small hold at the end before unpin
+      tl.to({}, { duration: 0.05 });
+    }, sectionRef);
     return () => ctx.revert();
   }, []);
 
@@ -129,18 +148,13 @@ export default function TextReveal() {
           p.vy += Math.sin(angle) * force;
         }
 
-        // Spring back to home
         p.vx += (p.homeX - p.x) * 0.012;
         p.vy += (p.homeY - p.y) * 0.012;
-
-        // Damping
         p.vx *= 0.92;
         p.vy *= 0.92;
-
         p.x += p.vx;
         p.y += p.vy;
 
-        // Opacity boost when moving fast
         const speed = Math.hypot(p.vx, p.vy);
         const alpha = Math.min(1, 0.2 + speed * 0.12);
 
@@ -168,8 +182,9 @@ export default function TextReveal() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex items-center justify-center overflow-hidden"
-      style={{ height: "100dvh", minHeight: 600 }}
+      id="textreveal"
+      className="panel relative flex items-center justify-center overflow-hidden"
+      style={{ minHeight: 600 }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
     >
@@ -189,7 +204,7 @@ export default function TextReveal() {
         <div
           className="absolute inset-0"
           style={{
-            background: "linear-gradient(to bottom, rgba(8,8,8,0.78) 0%, rgba(8,8,8,0.68) 50%, rgba(8,8,8,0.82) 100%)",
+            background: "linear-gradient(to bottom, rgba(20,30,28,0.78) 0%, rgba(20,30,28,0.68) 50%, rgba(20,30,28,0.82) 100%)",
           }}
         />
       </div>
@@ -197,7 +212,7 @@ export default function TextReveal() {
       {/* Sparkle particle layer */}
       <div ref={particleLayerRef} className="absolute inset-0 pointer-events-none z-[1]" />
 
-      {/* Text — words stay in place, don't scatter */}
+      {/* Text */}
       <div
         className="relative z-10 w-full flex justify-center"
         style={{ paddingLeft: "var(--pad-x)", paddingRight: "var(--pad-x)" }}
@@ -217,8 +232,8 @@ export default function TextReveal() {
             const el = (
               <span
                 key={i}
-                className="reveal-word text-[#f5f5f0]"
-                style={{ opacity: 0.08, display: "inline-block" }}
+                className="reveal-word"
+                style={{ opacity: 0.08, display: "inline-block", color: "var(--accent-cream)" }}
               >
                 {word}
               </span>

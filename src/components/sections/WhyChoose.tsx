@@ -34,12 +34,12 @@ export default function WhyChoose() {
     <section
       ref={sectionRef}
       id="why"
-      className="pb-section relative"
-      style={{ padding: "clamp(5rem, 10vh, 8rem) 0", background: "#080808" }}
+      className="panel pb-section relative"
+      style={{ paddingBottom: "clamp(3rem, 5vh, 5rem)", background: "var(--bg-primary)" }}
     >
       <div
         className="absolute top-0 left-0 right-0 h-[1px]"
-        style={{ background: "rgba(255,255,255,0.07)" }}
+        style={{ background: "var(--border-subtle)" }}
       />
       <div
         className="w-full"
@@ -58,7 +58,7 @@ export default function WhyChoose() {
                 fontSize: "0.7rem",
                 letterSpacing: "0.2em",
                 textTransform: "uppercase",
-                color: "#555",
+                color: "var(--text-muted)",
                 marginBottom: "1.5rem",
               }}
             >
@@ -106,7 +106,7 @@ export default function WhyChoose() {
             <div
               key={item.number}
               className="why-row group relative grid grid-cols-[auto_1fr] md:grid-cols-[auto_1fr_2fr] gap-6 md:gap-12 items-start py-8 cursor-default"
-              style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }}
+              style={{ borderTop: "1px solid var(--border-subtle)" }}
             >
               {/* Draw-in accent line on hover */}
               <span
@@ -124,7 +124,7 @@ export default function WhyChoose() {
                   fontFamily: "var(--font-body)",
                   fontSize: "0.72rem",
                   letterSpacing: "0.15em",
-                  color: "#555",
+                  color: "var(--text-muted)",
                   marginTop: "0.6rem",
                   transitionTimingFunction: "var(--ease-out-expo)",
                 }}
@@ -160,7 +160,7 @@ export default function WhyChoose() {
               </p>
             </div>
           ))}
-          <div style={{ borderTop: "1px solid rgba(255,255,255,0.07)" }} />
+          <div style={{ borderTop: "1px solid var(--border-subtle)" }} />
         </div>
       </div>
     </section>

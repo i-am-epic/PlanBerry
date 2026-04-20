@@ -1,25 +1,23 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useContactModal } from "@/components/providers/ModalProvider";
-
 gsap.registerPlugin(ScrollTrigger);
 
 const footerNav = [
-  { label: "Home", href: "#hero" },
-  { label: "Services", href: "#services" },
-  { label: "About", href: "#about" },
-  { label: "Stories", href: "#testimonials" },
-  { label: "Contact", href: "#contact" },
-  { label: "Careers", href: "#" },
+  { label: "Home", href: "/#hero" },
+  { label: "Services", href: "/#services" },
+  { label: "About", href: "/#about" },
+  { label: "Gallery", href: "/gallery" },
+  { label: "Stories", href: "/#testimonials" },
+  { label: "Contact", href: "/#contact" },
 ];
 
 const socials = [
   {
     label: "Instagram",
-    href: "#",
+    href: "https://instagram.com/planberryevents",
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
         <rect x="2" y="2" width="20" height="20" rx="5" />
@@ -60,45 +58,7 @@ const socials = [
   },
 ];
 
-const timezones = [
-  { city: "Bangalore", timezone: "Asia/Kolkata", abbr: "IST" },
-  { city: "London", timezone: "Europe/London", abbr: "GMT" },
-  { city: "Dubai", timezone: "Asia/Dubai", abbr: "GST" },
-];
-
-function TimezoneClock({ city, timezone, abbr }: { city: string; timezone: string; abbr: string }) {
-  const [time, setTime] = useState("");
-
-  useEffect(() => {
-    const update = () => {
-      const now = new Date();
-      const local = new Date(now.toLocaleString("en-US", { timeZone: timezone }));
-      setTime(
-        `${local.getHours().toString().padStart(2, "0")}:${local.getMinutes().toString().padStart(2, "0")}:${local.getSeconds().toString().padStart(2, "0")}`
-      );
-    };
-    update();
-    const id = setInterval(update, 1000);
-    return () => clearInterval(id);
-  }, [timezone]);
-
-  return (
-    <div className="flex flex-col gap-1.5">
-      <span className="text-xs uppercase tracking-[0.1em] text-[#666]" style={{ fontFamily: "var(--font-body)", fontWeight: 400 }}>
-        {city}
-      </span>
-      <div className="flex items-center gap-2">
-        <span className="font-mono text-sm tracking-widest tabular-nums text-[#999]" style={{ fontFamily: "var(--font-body)" }}>
-          {time || "--:--:--"}
-        </span>
-        <span className="text-xs text-[#666]">{abbr}</span>
-      </div>
-    </div>
-  );
-}
-
 export default function Footer() {
-  const { openContact } = useContactModal();
   const footerRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
@@ -122,7 +82,8 @@ export default function Footer() {
   return (
     <footer
       ref={footerRef}
-      className="relative border-t border-[rgba(255,255,255,0.1)]"
+      className="relative border-t mt-auto"
+      style={{ background: "var(--bg-primary)", borderColor: "var(--border-subtle)" }}
     >
       <div
         className="w-full"
@@ -133,26 +94,29 @@ export default function Footer() {
           paddingBottom: "clamp(4rem, 8vh, 7rem)",
         }}
       >
-        <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1fr_1.2fr] gap-14 lg:gap-16 xl:gap-24">
+        <div className="w-full grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-[2fr_1fr_1.2fr] gap-14 lg:gap-16 xl:gap-24">
           {/* Brand — data-lag staggers each column's inertia for a cascade effect */}
           <div data-lag="0.05" className="footer-col">
             <a href="#hero" className="block mb-8">
-              <span className="text-xl tracking-tight" style={{ fontFamily: "var(--font-display)" }}>
-                PlanBerry
-              </span>
+              <img
+                src="/logo.png"
+                alt="Planberry Events"
+                style={{ width: "48px", height: "auto" }}
+              />
             </a>
             <p
-              className="text-sm text-[#999] leading-[1.8] mb-10"
-              style={{ fontFamily: "var(--font-body)", fontWeight: 300, maxWidth: "32ch" }}
+              className="text-sm leading-[1.8] mb-10"
+              style={{ fontFamily: "var(--font-body)", fontWeight: 300, maxWidth: "32ch", color: "var(--text-secondary)" }}
             >
-              Thoughtfully planned events that run seamlessly — from corporate conferences to personal celebrations. Based in Bangalore.
+              Crafting experiences. Delivering moments. Full-service event management for corporate experiences and wedding celebrations — based in Bangalore.
             </p>
             <div className="flex items-center gap-4">
               {socials.map((s) => (
                 <a
                   key={s.label}
                   href={s.href}
-                  className="w-10 h-10 rounded-full bg-[#202020] flex items-center justify-center text-[#666] hover:text-white hover:bg-[#2a2a2a] transition-all duration-300"
+                  className="w-10 h-10 rounded-full flex items-center justify-center transition-all duration-300"
+                  style={{ background: "var(--bg-card)", color: "var(--text-muted)" }}
                   aria-label={s.label}
                 >
                   {s.icon}
@@ -163,7 +127,7 @@ export default function Footer() {
 
           {/* Navigate */}
           <div data-lag="0.1" className="footer-col">
-            <h4 className="text-xs uppercase tracking-[0.15em] text-[#666] mb-8" style={{ fontFamily: "var(--font-body)", fontWeight: 500 }}>
+            <h4 className="text-xs uppercase tracking-[0.15em] mb-8" style={{ fontFamily: "var(--font-body)", fontWeight: 500, color: "var(--text-muted)" }}>
               Navigate
             </h4>
             <ul className="space-y-4">
@@ -171,7 +135,7 @@ export default function Footer() {
                 <li key={link.label}>
                   <a
                     href={link.href}
-                    className="text-sm text-[#999] hover:text-[#f5f5f0] link-hover transition-colors duration-300"
+                    className="text-sm text-[var(--text-secondary)] hover:text-[var(--accent-cream)] link-hover transition-colors duration-300"
                     style={{ fontFamily: "var(--font-body)", fontWeight: 300 }}
                   >
                     {link.label}
@@ -183,40 +147,33 @@ export default function Footer() {
 
           {/* Contact */}
           <div data-lag="0.15" className="footer-col">
-            <h4 className="text-xs uppercase tracking-[0.15em] text-[#666] mb-8" style={{ fontFamily: "var(--font-body)", fontWeight: 500 }}>
+            <h4 className="text-xs uppercase tracking-[0.15em] mb-8" style={{ fontFamily: "var(--font-body)", fontWeight: 500, color: "var(--text-muted)" }}>
               Get in Touch
             </h4>
             <ul className="space-y-4">
               <li>
-                <button onClick={openContact} className="text-sm text-[#999] hover:text-[#f5f5f0] link-hover transition-colors duration-300 text-left" style={{ fontFamily: "var(--font-body)", fontWeight: 300, background: "none", border: "none", cursor: "pointer", padding: 0 }}>
-                  hello@planberry.in
-                </button>
+                <a href="mailto:contact@planberryevents.com" className="text-sm text-[var(--text-secondary)] hover:text-[var(--accent-cream)] link-hover transition-colors duration-300" style={{ fontFamily: "var(--font-body)", fontWeight: 300 }}>
+                  contact@planberryevents.com
+                </a>
               </li>
               <li>
-                <a href="tel:+918012345678" className="text-sm text-[#999] hover:text-[#f5f5f0] link-hover transition-colors duration-300" style={{ fontFamily: "var(--font-body)", fontWeight: 300 }}>
-                  +91 80 1234 5678
+                <a href="tel:+918867659549" className="text-sm text-[var(--text-secondary)] hover:text-[var(--accent-cream)] link-hover transition-colors duration-300" style={{ fontFamily: "var(--font-body)", fontWeight: 300 }}>
+                  Jayanth &middot; +91 88676 59549
+                </a>
+              </li>
+              <li>
+                <a href="tel:+919731737771" className="text-sm text-[var(--text-secondary)] hover:text-[var(--accent-cream)] link-hover transition-colors duration-300" style={{ fontFamily: "var(--font-body)", fontWeight: 300 }}>
+                  Revanth &middot; +91 97317 37771
                 </a>
               </li>
             </ul>
             <div className="mt-12">
-              <h4 className="text-xs uppercase tracking-[0.15em] text-[#666] mb-4" style={{ fontFamily: "var(--font-body)", fontWeight: 500 }}>
+              <h4 className="text-xs uppercase tracking-[0.15em] mb-4" style={{ fontFamily: "var(--font-body)", fontWeight: 500, color: "var(--text-muted)" }}>
                 Office
               </h4>
-              <p className="text-sm text-[#999] leading-[1.8]" style={{ fontFamily: "var(--font-body)", fontWeight: 300 }}>
-                Level 12, Prestige Trade Tower,<br />Palace Road, Bangalore<br />Karnataka 560001
+              <p className="text-sm leading-[1.8]" style={{ fontFamily: "var(--font-body)", fontWeight: 300, color: "var(--text-secondary)" }}>
+                #211, 4th C Cross, HRBR 3rd Block,<br />Kalyan Nagar, Bangalore<br />Karnataka 560043
               </p>
-            </div>
-          </div>
-
-          {/* Clocks */}
-          <div data-lag="0.2" className="footer-col">
-            <h4 className="text-xs uppercase tracking-[0.15em] text-[#666] mb-8" style={{ fontFamily: "var(--font-body)", fontWeight: 500 }}>
-              Local Time
-            </h4>
-            <div className="space-y-7">
-              {timezones.map((tz) => (
-                <TimezoneClock key={tz.city} {...tz} />
-              ))}
             </div>
           </div>
         </div>
@@ -224,15 +181,15 @@ export default function Footer() {
 
       {/* Bottom bar */}
       <div
-        className="w-full flex flex-col md:flex-row items-center justify-between gap-4 border-t border-[rgba(255,255,255,0.1)]"
-        style={{ paddingLeft: "var(--pad-x)", paddingRight: "var(--pad-x)", paddingTop: "2rem", paddingBottom: "2rem" }}
+        className="w-full flex flex-col md:flex-row items-center justify-between gap-4 border-t"
+        style={{ paddingLeft: "var(--pad-x)", paddingRight: "var(--pad-x)", paddingTop: "2rem", paddingBottom: "2rem", borderColor: "var(--border-subtle)" }}
       >
-        <p className="text-xs text-[#666]" style={{ fontFamily: "var(--font-body)", fontWeight: 300 }}>
-          &copy; {new Date().getFullYear()} PlanBerry Events Pvt. Ltd. All rights reserved.
+        <p className="text-xs" style={{ fontFamily: "var(--font-body)", fontWeight: 300, color: "var(--text-muted)" }}>
+          &copy; {new Date().getFullYear()} Planberry Events. All rights reserved.
         </p>
         <div className="flex items-center gap-6">
-          <a href="#" className="text-xs text-[#666] hover:text-[#999] link-hover transition-colors duration-300">Privacy Policy</a>
-          <a href="#" className="text-xs text-[#666] hover:text-[#999] link-hover transition-colors duration-300">Terms of Service</a>
+          <a href="#" className="text-xs text-[var(--text-muted)] hover:text-[var(--text-secondary)] link-hover transition-colors duration-300">Privacy Policy</a>
+          <a href="#" className="text-xs text-[var(--text-muted)] hover:text-[var(--text-secondary)] link-hover transition-colors duration-300">Terms of Service</a>
         </div>
       </div>
     </footer>

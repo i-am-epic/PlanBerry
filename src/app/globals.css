@@ -1,19 +1,26 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #080808;
-  --bg-secondary: #0d0d0d;
-  --bg-card: #141414;
+  /* ─── Planberry brand palette ─── */
+  --bg-primary: #141e1c;              /* rgb(20,30,28) — main background */
+  --bg-secondary: #1a2624;            /* one step lighter for sections */
+  --bg-card: #212e2b;                 /* cards / raised surfaces */
+  --bg-elevated: #2a3835;             /* hovered / focused surfaces */
+
+  --accent-gold: #bea054;             /* rgb(190,160,84) — highlight gold */
+  --accent-gold-soft: #ccb06a;        /* hover gold */
+  --accent-cream: #dad8cc;            /* rgb(218,216,204) — primary text */
+  --accent-cream-dim: #c2c0b5;        /* muted cream */
+
+  --text-primary: var(--accent-cream);
+  --text-secondary: rgba(218, 216, 204, 0.7);
+  --text-muted: rgba(218, 216, 204, 0.45);
+
+  --border-subtle: rgba(218, 216, 204, 0.12);
+  --border-gold: rgba(190, 160, 84, 0.4);
 
   /* Fluid horizontal padding — used by all section content wrappers */
   --pad-x: clamp(1.5rem, 7vw, 7rem);
-
-  --text-primary: #f5f5f0;
-  --text-secondary: #999999;
-  --text-muted: #666666;
-
-  --accent-cream: #f5f5f0;
-  --border-subtle: rgba(255, 255, 255, 0.15);
 
   --font-display: var(--font-fraunces), Georgia, serif;
   --font-body: var(--font-dm-sans), system-ui, sans-serif;
@@ -85,7 +92,7 @@ html {
 }
 
 body {
-  background: #080808;
+  background: var(--bg-primary);
   color: var(--text-primary);
   font-family: var(--font-body);
   overflow-x: hidden;
@@ -97,8 +104,8 @@ body {
 }
 
 ::selection {
-  background: #333333;
-  color: white;
+  background: var(--accent-gold);
+  color: var(--bg-primary);
 }
 
 ::-webkit-scrollbar {
@@ -110,12 +117,12 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #444444;
+  background: rgba(190, 160, 84, 0.35);
   border-radius: 3px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #555555;
+  background: rgba(190, 160, 84, 0.6);
 }
 
 .font-display {
@@ -132,12 +139,46 @@ body {
   padding-right: var(--pad-x);
 }
 
-/* ─── Perf: every section opts into containment + lazy layout ─── */
+/* ─── Perf: style/layout containment only. We skip `content-visibility: auto`
+   because its intrinsic-size placeholder confuses ScrollTrigger and causes
+   scroll-triggered animations below the fold to fire at stale positions. */
 .pb-section {
-  content-visibility: auto;
-  contain-intrinsic-size: 0 800px;
   contain: layout paint style;
 }
+
+/* Hide scrollbar on horizontal carousels while keeping scroll behavior */
+.no-scrollbar { scrollbar-width: none; -ms-overflow-style: none; }
+.no-scrollbar::-webkit-scrollbar { display: none; }
+
+/* Case-studies carousel arrow buttons */
+.cs-arrow {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 48px;
+  height: 48px;
+  border-radius: 9999px;
+  background: rgba(13, 42, 34, 0.78);
+  border: 1px solid rgba(201, 163, 74, 0.35);
+  color: var(--accent-cream);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  transition: all 0.3s var(--ease-out-expo);
+  z-index: 20;
+  box-shadow: 0 8px 28px rgba(0, 0, 0, 0.35);
+}
+.cs-arrow:hover {
+  background: var(--accent-gold);
+  color: var(--bg-primary);
+  border-color: var(--accent-gold);
+  transform: translateY(-50%) scale(1.06);
+}
+.cs-arrow-left { left: clamp(0.75rem, 2vw, 2rem); }
+.cs-arrow-right { right: clamp(0.75rem, 2vw, 2rem); }
 
 /* Centered section content: flex column, text-center, mx-auto children */
 .section-center {
@@ -169,16 +210,16 @@ body {
 
 /* Button styles */
 .btn-primary {
-  background: var(--accent-cream);
+  background: var(--accent-gold);
   color: var(--bg-primary);
-  padding: 14px 32px;
+  padding: 16px 34px;
   border-radius: 9999px;
   font-family: var(--font-body);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.9rem;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
   transition: all 0.4s var(--ease-out-expo);
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.26);
+  box-shadow: 0 4px 22px rgba(0, 0, 0, 0.3);
   cursor: pointer;
   border: none;
   display: inline-flex;
@@ -189,20 +230,20 @@ body {
 
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.35);
-  background: #e5e5e0;
+  box-shadow: 0 10px 34px rgba(190, 160, 84, 0.25);
+  background: var(--accent-gold-soft);
 }
 
 .btn-secondary {
   background: transparent;
-  border: none;
-  color: rgba(255, 255, 255, 0.7);
-  padding: 14px 32px;
+  border: 1px solid var(--border-gold);
+  color: var(--accent-cream);
+  padding: 15px 30px;
   border-radius: 9999px;
   font-family: var(--font-body);
-  font-weight: 400;
+  font-weight: 500;
   font-size: 0.9rem;
-  letter-spacing: 0.03em;
+  letter-spacing: 0.04em;
   transition: all 0.4s var(--ease-out-expo);
   cursor: pointer;
   display: inline-flex;
@@ -212,8 +253,9 @@ body {
 }
 
 .btn-secondary:hover {
-  color: rgba(255, 255, 255, 1);
-  background: rgba(255, 255, 255, 0.06);
+  color: var(--accent-gold);
+  border-color: var(--accent-gold);
+  background: rgba(190, 160, 84, 0.08);
   transform: translateY(-1px);
 }
 
@@ -243,8 +285,20 @@ body {
 /* Section snap — magnetic scroll */
 .snap-section {
   scroll-snap-align: start;
-  scroll-snap-stop: normal;
+  scroll-snap-stop: always;
 }
+
+/* Full-viewport snap sections — each section fills the viewport */
+.panel {
+  min-height: 100dvh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  /* Account for fixed navbar overlap */
+  padding-top: 72px;
+  box-sizing: border-box;
+}
+
 
 /* Marquee animation */
 @keyframes marquee {

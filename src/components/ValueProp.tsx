@@ -33,7 +33,8 @@ export default function ValueProp() {
   return (
     <section
       ref={sectionRef}
-      className="relative flex items-center justify-center overflow-hidden"
+      id="valueprop"
+      className="panel relative flex items-center justify-center overflow-hidden"
       style={{ height: "100dvh", minHeight: 600 }}
     >
       {/* data-speed: content drifts slightly slower than scroll = depth / floating feel */}
@@ -67,12 +68,12 @@ export default function ValueProp() {
             textAlign: "center",
           }}
         >
-          A full-service event management company that brings people and ideas
-          together — corporate experiences and personal{" "}
+          At Planberry Events, every event has a story to tell — corporate
+          experiences and wedding{" "}
           <span className="italic" style={{ fontVariationSettings: "'SOFT' 100, 'WONK' 1" }}>
             celebrations
           </span>{" "}
-          crafted with purpose.
+          designed with purpose.
         </h2>
         <p
           ref={paraRef}
@@ -86,9 +87,9 @@ export default function ValueProp() {
             textAlign: "center",
           }}
         >
-          We go beyond simply organising events. We work closely with our clients
-          to design experiences that reflect their purpose, their people, and their
-          values — delivered with creativity, precision, and professionalism.
+          We don&apos;t just organize events — we design experiences that reflect
+          your purpose, your people, and your vision, delivered with creativity,
+          precision, and professionalism.
         </p>
       </div>
     </section>

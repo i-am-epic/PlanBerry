@@ -18,7 +18,7 @@ const eventVideos = [
 
 const showcaseItems = [
   {
-    image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=900&q=80",
+    image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&q=65",
     title: "The Meridian Gala",
     category: "Corporate",
     year: "2025",
@@ -28,7 +28,7 @@ const showcaseItems = [
     hashtags: ["#MeridianGala", "#CorporateEvents", "#BangaloreEvents"],
   },
   {
-    image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=900&q=80",
+    image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=65",
     title: "Reddy–Sharma Wedding",
     category: "Celebration",
     year: "2025",
@@ -38,7 +38,7 @@ const showcaseItems = [
     hashtags: ["#ReddySharmaWedding", "#WeddingBangalore", "#LuxuryWedding"],
   },
   {
-    image: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=900&q=80",
+    image: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=600&q=65",
     title: "TechFlow Series A",
     category: "Launch",
     year: "2024",
@@ -48,7 +48,7 @@ const showcaseItems = [
     hashtags: ["#TechFlowLaunch", "#StartupIndia", "#BrandLaunchBangalore"],
   },
   {
-    image: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=900&q=80",
+    image: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=600&q=65",
     title: "Neon Arts Festival",
     category: "Cultural",
     year: "2024",
@@ -58,7 +58,7 @@ const showcaseItems = [
     hashtags: ["#NeonArtsFest", "#BangaloreArts", "#EventsBangalore"],
   },
   {
-    image: "https://images.unsplash.com/photo-1478146059778-26028b07395a?w=900&q=80",
+    image: "https://images.unsplash.com/photo-1478146059778-26028b07395a?w=600&q=65",
     title: "The Grand Pavilion",
     category: "Private",
     year: "2024",
