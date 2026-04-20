@@ -120,18 +120,24 @@ export default function Testimonials() {
 
       // ── Mobile: vertical stagger ──────────────────────────────────────────
       mm.add("(max-width: 767px)", () => {
-        gsap.from(".testimonial-card", {
-          y: 40,
-          opacity: 0,
-          duration: 1,
-          stagger: 0.12,
-          ease: "expo.out",
-          scrollTrigger: {
-            trigger: section,
-            start: "top 75%",
-            toggleActions: "play none none reverse",
-          },
-        });
+        gsap.fromTo(
+          ".testimonial-card",
+          { y: 40, opacity: 0 },
+          {
+            y: 0,
+            opacity: 1,
+            duration: 1,
+            stagger: 0.12,
+            ease: "expo.out",
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 90%",
+              toggleActions: "play none none none",
+              once: true,
+            },
+          }
+        );
       });
     }, sectionRef);
 

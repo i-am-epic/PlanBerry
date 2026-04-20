@@ -389,10 +389,12 @@ body {
 .menu-overlay {
   clip-path: circle(0% at calc(100% - 40px) 40px);
   transition: clip-path 0.8s var(--ease-out-expo);
+  pointer-events: none;
 }
 
 .menu-overlay.open {
   clip-path: circle(150% at calc(100% - 40px) 40px);
+  pointer-events: auto;
 }
 
 /* Wave lines animation for fallback image */

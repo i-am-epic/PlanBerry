@@ -2,6 +2,8 @@
 
 import { useEffect, useRef, useCallback, useState } from "react";
 import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { ScrollSmoother } from "gsap/ScrollSmoother";
 import { useForm, ValidationError } from "@formspree/react";
 
 interface ContactModalProps {
@@ -47,6 +49,16 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
       setSelectedType("");
       setSelectedGuests("");
       document.body.style.overflow = "hidden";
+
+      // ScrollSmoother's normalizeScroll captures wheel/touch events at the
+      // document level. If we don't pause it, scrolling inside the modal
+      // form ends up scrolling the page behind. Pause on open, resume on
+      // close. Also disable ScrollTrigger.normalizeScroll for trackpads.
+      const smoother = ScrollSmoother.get?.();
+      smoother?.paused(true);
+      const normalizer = ScrollTrigger.normalizeScroll?.();
+      if (normalizer && typeof normalizer !== "boolean") normalizer.disable();
+
       gsap.set(overlay, { display: "flex" });
       gsap.fromTo(overlay, { opacity: 0 }, { opacity: 1, duration: 0.3, ease: "power2.out" });
       gsap.fromTo(
@@ -56,6 +68,13 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
       );
     } else {
       document.body.style.overflow = "";
+
+      // Resume page scroll behavior
+      const smoother = ScrollSmoother.get?.();
+      smoother?.paused(false);
+      const normalizer = ScrollTrigger.normalizeScroll?.();
+      if (normalizer && typeof normalizer !== "boolean") normalizer.enable();
+
       gsap.to(overlay, {
         opacity: 0,
         duration: 0.25,
@@ -80,8 +99,13 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
   return (
     <div
       ref={overlayRef}
-      className="fixed inset-0 z-[200] hidden items-stretch justify-end"
-      style={{ background: "rgba(0,0,0,0.7)", backdropFilter: "blur(6px)" }}
+      className="fixed inset-0 z-[200] items-stretch justify-end"
+      style={{
+        display: "none",
+        background: "rgba(0,0,0,0.7)",
+        backdropFilter: "blur(6px)",
+        touchAction: "none",
+      }}
       onClick={handleBackdrop}
     >
       <div
@@ -222,6 +246,8 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
                 padding:
                   "clamp(1.5rem, 3vh, 2.25rem) clamp(1.75rem, 4vw, 3rem)",
                 paddingBottom: "clamp(2.5rem, 5vh, 4rem)",
+                touchAction: "pan-y",
+                WebkitOverflowScrolling: "touch",
               }}
             >
               {/*

@@ -77,29 +77,41 @@ export default function Stats() {
         once: true,
       });
 
-      gsap.from(".stats-label", {
-        y: 20, opacity: 0, duration: 0.7, ease: "expo.out",
-        scrollTrigger: {
-          trigger: sectionRef.current, start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
-      });
+      gsap.fromTo(".stats-label",
+        { y: 20, opacity: 0 },
+        {
+          y: 0, opacity: 1, duration: 0.7, ease: "expo.out",
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: sectionRef.current, start: "top 90%",
+            toggleActions: "play none none none", once: true,
+          },
+        }
+      );
 
-      gsap.from(".stat-item", {
-        y: 35, opacity: 0, duration: 1, stagger: 0.1, ease: "expo.out",
-        scrollTrigger: {
-          trigger: sectionRef.current, start: "top 70%",
-          toggleActions: "play none none reverse",
-        },
-      });
+      gsap.fromTo(".stat-item",
+        { y: 35, opacity: 0 },
+        {
+          y: 0, opacity: 1, duration: 1, stagger: 0.1, ease: "expo.out",
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: sectionRef.current, start: "top 85%",
+            toggleActions: "play none none none", once: true,
+          },
+        }
+      );
 
-      gsap.from(".marquee-wrap", {
-        opacity: 0, duration: 1.2, ease: "power2.out",
-        scrollTrigger: {
-          trigger: ".marquee-wrap", start: "top 92%",
-          toggleActions: "play none none reverse",
-        },
-      });
+      gsap.fromTo(".marquee-wrap",
+        { opacity: 0 },
+        {
+          opacity: 1, duration: 1.2, ease: "power2.out",
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: ".marquee-wrap", start: "top 95%",
+            toggleActions: "play none none none", once: true,
+          },
+        }
+      );
     }, sectionRef);
 
     return () => ctx.revert();
