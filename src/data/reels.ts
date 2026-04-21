@@ -5,7 +5,7 @@ export type Reel = {
   poster: string;
 };
 
-export const INSTA_URL = "https://instagram.com/planberryevents";
+export const INSTA_URL = "https://www.instagram.com/planberry_events";
 
 // Remote-hosted sample videos — streamed, never stored client-side.
 export const reels: Reel[] = [

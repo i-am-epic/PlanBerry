@@ -388,13 +388,23 @@ body {
 /* Mobile menu overlay */
 .menu-overlay {
   clip-path: circle(0% at calc(100% - 40px) 40px);
-  transition: clip-path 0.8s var(--ease-out-expo);
+  -webkit-clip-path: circle(0% at calc(100% - 40px) 40px);
+  transition: clip-path 0.8s var(--ease-out-expo),
+              -webkit-clip-path 0.8s var(--ease-out-expo),
+              opacity 0.3s var(--ease-out-expo);
   pointer-events: none;
+  opacity: 0;
+  visibility: hidden;
+  will-change: clip-path;
+  transform: translateZ(0);
 }
 
 .menu-overlay.open {
   clip-path: circle(150% at calc(100% - 40px) 40px);
+  -webkit-clip-path: circle(150% at calc(100% - 40px) 40px);
   pointer-events: auto;
+  opacity: 1;
+  visibility: visible;
 }
 
 /* Wave lines animation for fallback image */

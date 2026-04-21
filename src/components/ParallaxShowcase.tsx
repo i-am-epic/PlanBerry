@@ -253,7 +253,7 @@ function InstaReel({ item, videoSrc, onClose }: { item: ShowcaseItem; videoSrc: 
 
           {/* Audio note */}
           <a
-            href="https://instagram.com/planberry.in"
+            href="https://www.instagram.com/planberry_events"
             target="_blank"
             rel="noopener noreferrer"
             className="w-10 h-10 rounded-[8px] overflow-hidden border-2 border-[rgba(255,255,255,0.3)]"

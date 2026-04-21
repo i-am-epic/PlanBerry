@@ -141,7 +141,11 @@ const jsonLd = {
       "priceRange": "₹₹₹",
       "currenciesAccepted": "INR",
       "paymentAccepted": "Cash, Bank Transfer, UPI",
-      "sameAs": ["https://instagram.com/planberryevents"],
+      "sameAs": [
+        "https://www.instagram.com/planberry_events",
+        "https://www.linkedin.com/in/planberry-events-a18786404",
+        "https://www.facebook.com/share/1HRQxrmcUg/",
+      ],
     },
     {
       "@type": "WebSite",
@@ -169,6 +173,18 @@ export default function RootLayout({
         <link rel="dns-prefetch" href="https://stream.mux.com" />
         <link rel="preconnect" href="https://images.unsplash.com" />
         <link rel="preconnect" href="https://storage.googleapis.com" />
+        {/* Force-reset scroll on refresh so the page always lands on the hero
+            instead of wherever the browser remembered. Runs before hydration. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "if('scrollRestoration' in history){history.scrollRestoration='manual';}" +
+              "try{window.scrollTo(0,0);}catch(e){}" +
+              "window.addEventListener('pageshow',function(){try{window.scrollTo(0,0);}catch(e){}});" +
+              "window.addEventListener('DOMContentLoaded',function(){try{window.scrollTo(0,0);}catch(e){}});" +
+              "window.addEventListener('load',function(){try{window.scrollTo(0,0);}catch(e){}});",
+          }}
+        />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}

@@ -22,5 +22,7 @@ export const brand = {
     line2: "Kalyan Nagar, Bangalore",
     line3: "Karnataka 560043",
   },
-  instagram: "https://instagram.com/planberryevents",
+  instagram: "https://www.instagram.com/planberry_events",
+  linkedin: "https://www.linkedin.com/in/planberry-events-a18786404",
+  facebook: "https://www.facebook.com/share/1HRQxrmcUg/",
 };
