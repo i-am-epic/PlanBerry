@@ -72,17 +72,19 @@ export default function PhotoStream() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      gsap.from(".photostream-head", {
-        y: 30,
-        opacity: 0,
-        duration: 0.9,
-        ease: "expo.out",
-        scrollTrigger: {
-          trigger: sectionRef.current,
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
-      });
+      gsap.fromTo(".photostream-head",
+        { y: 30, opacity: 0 },
+        {
+          y: 0, opacity: 1, duration: 0.9, ease: "expo.out",
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: sectionRef.current,
+            start: "top 90%",
+            toggleActions: "play none none none",
+            once: true,
+          },
+        }
+      );
     }, sectionRef);
     return () => ctx.revert();
   }, []);

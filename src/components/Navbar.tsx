@@ -74,15 +74,17 @@ export default function Navbar() {
   return (
     <>
       <nav
-        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
+        className={`fixed top-0 left-0 right-0 transition-all duration-500 ${
           hidden ? "opacity-0 pointer-events-none" : "opacity-100"
         }`}
         style={{
+          // Keep nav above mobile menu overlay so hamburger (close button) stays tappable
+          zIndex: menuOpen ? 60 : 50,
           padding: scrolled ? "16px 0" : "28px 0",
-          background: scrolled ? "rgba(20, 30, 28, 0.85)" : "transparent",
-          backdropFilter: scrolled ? "blur(14px) saturate(140%)" : "none",
-          WebkitBackdropFilter: scrolled ? "blur(14px) saturate(140%)" : "none",
-          borderBottom: scrolled ? "1px solid rgba(190,160,84,0.18)" : "1px solid transparent",
+          background: scrolled && !menuOpen ? "rgba(20, 30, 28, 0.85)" : "transparent",
+          backdropFilter: scrolled && !menuOpen ? "blur(14px) saturate(140%)" : "none",
+          WebkitBackdropFilter: scrolled && !menuOpen ? "blur(14px) saturate(140%)" : "none",
+          borderBottom: scrolled && !menuOpen ? "1px solid rgba(190,160,84,0.18)" : "1px solid transparent",
         }}
       >
         {/* Inner container */}
@@ -173,50 +175,60 @@ export default function Navbar() {
         </div>
       </nav>
 
-      {/* Mobile menu */}
-      <div className={`menu-overlay fixed inset-0 z-[55] ${menuOpen ? "open" : ""}`} style={{ background: "var(--bg-primary)" }}>
-        <div className="flex flex-col items-center justify-center h-full gap-10">
-          {navLinks.map((link, i) => (
-            <a
-              key={link.label}
-              href={link.href}
-              className="text-3xl font-light tracking-wide hover:text-[var(--accent-gold)] transition-colors duration-300"
-              style={{
-                color: "var(--accent-cream)",
-                fontFamily: "var(--font-display)",
-                opacity: menuOpen ? 1 : 0,
-                transform: menuOpen ? "translateY(0)" : "translateY(20px)",
-                transition: `all 0.5s var(--ease-out-expo) ${0.1 + i * 0.08}s`,
-              }}
-              onClick={(e) => {
-                setMenuOpen(false);
-                scrollTo(e, link.href);
-              }}
-            >
-              {link.label}
-            </a>
-          ))}
-          <button
-            onClick={() => { setMenuOpen(false); openContact(); }}
-            className="mt-4 inline-flex items-center gap-2.5 px-8 py-4 rounded-full text-base"
+      {/* Mobile menu — simple opacity fade, always in DOM but pointer-events gated */}
+      <div
+        className="md:hidden fixed inset-0 z-[55] flex flex-col items-center justify-center gap-10"
+        style={{
+          background: "var(--bg-primary)",
+          opacity: menuOpen ? 1 : 0,
+          visibility: menuOpen ? "visible" : "hidden",
+          pointerEvents: menuOpen ? "auto" : "none",
+          transition: "opacity 0.4s var(--ease-out-expo), visibility 0.4s",
+          WebkitTransform: "translateZ(0)",
+          transform: "translateZ(0)",
+        }}
+        aria-hidden={!menuOpen}
+      >
+        {navLinks.map((link, i) => (
+          <a
+            key={link.label}
+            href={link.href}
+            className="text-3xl font-light tracking-wide hover:text-[var(--accent-gold)] transition-colors duration-300"
             style={{
-              fontFamily: "var(--font-body)",
-              fontWeight: 600,
-              background: "var(--accent-gold)",
-              color: "var(--bg-primary)",
-              border: "none",
-              cursor: "pointer",
+              color: "var(--accent-cream)",
+              fontFamily: "var(--font-display)",
               opacity: menuOpen ? 1 : 0,
               transform: menuOpen ? "translateY(0)" : "translateY(20px)",
-              transition: "all 0.5s var(--ease-out-expo) 0.4s",
+              transition: `all 0.5s var(--ease-out-expo) ${0.08 + i * 0.06}s`,
+            }}
+            onClick={(e) => {
+              setMenuOpen(false);
+              scrollTo(e, link.href);
             }}
           >
-            Plan my event
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-              <path d="M5 12h14M12 5l7 7-7 7" />
-            </svg>
-          </button>
-        </div>
+            {link.label}
+          </a>
+        ))}
+        <button
+          onClick={() => { setMenuOpen(false); openContact(); }}
+          className="mt-4 inline-flex items-center gap-2.5 px-8 py-4 rounded-full text-base"
+          style={{
+            fontFamily: "var(--font-body)",
+            fontWeight: 600,
+            background: "var(--accent-gold)",
+            color: "var(--bg-primary)",
+            border: "none",
+            cursor: "pointer",
+            opacity: menuOpen ? 1 : 0,
+            transform: menuOpen ? "translateY(0)" : "translateY(20px)",
+            transition: "all 0.5s var(--ease-out-expo) 0.4s",
+          }}
+        >
+          Plan my event
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </button>
       </div>
     </>
   );

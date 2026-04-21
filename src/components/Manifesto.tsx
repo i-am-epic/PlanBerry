@@ -66,18 +66,19 @@ export default function Manifesto() {
       );
 
       // Principles stagger in — each card slightly offset
-      gsap.from(".manifesto-principle", {
-        y: 40,
-        opacity: 0,
-        duration: 1,
-        stagger: 0.14,
-        ease: "expo.out",
-        scrollTrigger: {
-          trigger: ".manifesto-principles",
-          start: "top 82%",
-          toggleActions: "play none none reverse",
-        },
-      });
+      gsap.fromTo(".manifesto-principle",
+        { y: 40, opacity: 0 },
+        {
+          y: 0, opacity: 1, duration: 1, stagger: 0.14, ease: "expo.out",
+          immediateRender: false,
+          scrollTrigger: {
+            trigger: ".manifesto-principles",
+            start: "top 90%",
+            toggleActions: "play none none none",
+            once: true,
+          },
+        }
+      );
     }, sectionRef);
 
     return () => ctx.revert();

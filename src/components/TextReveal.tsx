@@ -57,44 +57,66 @@ export default function TextReveal() {
       const wordEls = section?.querySelectorAll<HTMLElement>(".reveal-word");
       if (!section || !bg || !wordEls?.length) return;
 
-      // Master timeline scrubbed over the pinned range
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          pin: true,
-          start: "top 72px",
-          end: "+=200%",    // 2× viewport = two scrolls
-          scrub: 0.8,
-          invalidateOnRefresh: true,
-          anticipatePin: 1,
-        },
+      const mm = gsap.matchMedia();
+
+      // Desktop: pinned scrubbed timeline
+      mm.add("(min-width: 768px) and (pointer: fine)", () => {
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            pin: true,
+            start: "top 72px",
+            end: "+=200%",
+            scrub: 0.8,
+            invalidateOnRefresh: true,
+            anticipatePin: 1,
+          },
+        });
+
+        tl.to({}, { duration: 0.5 });
+        tl.to(Array.from(wordEls), { opacity: 1, stagger: 0.02, duration: 0.4, ease: "power2.out" }, 0.5);
+        tl.fromTo(bg,
+          { clipPath: "inset(0 35% 0 35%)" },
+          { clipPath: "inset(0 0% 0 0%)", ease: "power1.inOut", duration: 0.45 },
+          0.5
+        );
+        tl.to({}, { duration: 0.05 });
       });
 
-      // Phase 1 (0%–50%): first full scroll — section is visible, text stays dim.
-      // Nothing happens. Just a pause.
-      tl.to({}, { duration: 0.5 });
-
-      // Phase 2 (50%–95%): second scroll — words reveal sequentially + bg widens.
-      tl.to(
-        Array.from(wordEls),
-        {
-          opacity: 1,
-          stagger: 0.02,
-          duration: 0.4,
-          ease: "power2.out",
-        },
-        0.5
-      );
-
-      tl.fromTo(
-        bg,
-        { clipPath: "inset(0 35% 0 35%)" },
-        { clipPath: "inset(0 0% 0 0%)", ease: "power1.inOut", duration: 0.45 },
-        0.5
-      );
-
-      // Small hold at the end before unpin
-      tl.to({}, { duration: 0.05 });
+      // Mobile / touch: simple on-enter reveal, no pin, no scrub
+      mm.add("(max-width: 767px), (pointer: coarse)", () => {
+        gsap.fromTo(Array.from(wordEls),
+          { opacity: 0.08 },
+          {
+            opacity: 1,
+            stagger: 0.04,
+            duration: 0.6,
+            ease: "power2.out",
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 75%",
+              toggleActions: "play none none none",
+              once: true,
+            },
+          }
+        );
+        gsap.fromTo(bg,
+          { clipPath: "inset(0 20% 0 20%)" },
+          {
+            clipPath: "inset(0 0% 0 0%)",
+            duration: 1.1,
+            ease: "power1.inOut",
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 80%",
+              toggleActions: "play none none none",
+              once: true,
+            },
+          }
+        );
+      });
     }, sectionRef);
     return () => ctx.revert();
   }, []);

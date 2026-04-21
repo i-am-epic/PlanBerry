@@ -13,30 +13,33 @@ export default function MediaProductionSection() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.matchMedia().add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from(".mp-head", {
-          y: 20,
-          opacity: 0,
-          duration: 0.7,
-          ease: "expo.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 80%",
-            toggleActions: "play none none reverse",
-          },
-        });
+        gsap.fromTo(".mp-head",
+          { y: 20, opacity: 0 },
+          {
+            y: 0, opacity: 1, duration: 0.7, ease: "expo.out",
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 90%",
+              toggleActions: "play none none none",
+              once: true,
+            },
+          }
+        );
 
-        gsap.from(".mp-card", {
-          y: 40,
-          opacity: 0,
-          duration: 0.8,
-          stagger: 0.08,
-          ease: "expo.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 70%",
-            toggleActions: "play none none reverse",
-          },
-        });
+        gsap.fromTo(".mp-card",
+          { y: 40, opacity: 0 },
+          {
+            y: 0, opacity: 1, duration: 0.8, stagger: 0.08, ease: "expo.out",
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 85%",
+              toggleActions: "play none none none",
+              once: true,
+            },
+          }
+        );
       });
     }, sectionRef);
     return () => ctx.revert();

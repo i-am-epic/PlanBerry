@@ -13,18 +13,19 @@ export default function WhyChoose() {
   useEffect(() => {
     const ctx = gsap.context(() => {
       gsap.matchMedia().add("(prefers-reduced-motion: no-preference)", () => {
-        gsap.from(".why-row", {
-          y: 40,
-          opacity: 0,
-          duration: 0.9,
-          stagger: 0.08,
-          ease: "expo.out",
-          scrollTrigger: {
-            trigger: sectionRef.current,
-            start: "top 70%",
-            toggleActions: "play none none reverse",
-          },
-        });
+        gsap.fromTo(".why-row",
+          { y: 40, opacity: 0 },
+          {
+            y: 0, opacity: 1, duration: 0.9, stagger: 0.08, ease: "expo.out",
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: sectionRef.current,
+              start: "top 85%",
+              toggleActions: "play none none none",
+              once: true,
+            },
+          }
+        );
       });
     }, sectionRef);
     return () => ctx.revert();
