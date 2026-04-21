@@ -110,7 +110,7 @@ export default function CaseStudiesPinned() {
       ref={sectionRef}
       id="work"
       className="panel relative overflow-hidden"
-      style={{ background: "var(--bg-primary)" }}
+      style={{ background: "var(--bg-primary)", justifyContent: "flex-start" }}
     >
       {/* Heading */}
       <div

@@ -56,7 +56,7 @@ export default function GalleryTeaser() {
       ref={sectionRef}
       id="gallery"
       className="panel pb-section relative overflow-hidden"
-      style={{ background: "var(--bg-primary)" }}
+      style={{ background: "var(--bg-primary)", justifyContent: "flex-start" }}
     >
       {/* Header row */}
       <div

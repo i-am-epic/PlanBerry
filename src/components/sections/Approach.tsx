@@ -100,10 +100,11 @@ export default function Approach() {
           {approach.map((step) => (
             <div
               key={step.number}
-              className="approach-card group relative rounded-[8px] p-6 lg:p-7 flex flex-col transition-all duration-500"
+              className="approach-card group relative rounded-[10px] flex flex-col transition-all duration-500"
               style={{
                 background: "var(--bg-card)",
                 border: "1px solid var(--border-subtle)",
+                padding: "clamp(1.75rem, 2.5vw, 2.25rem)",
               }}
             >
               {/* Number */}

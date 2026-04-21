@@ -23,62 +23,67 @@ export default function CTA() {
       const section = sectionRef.current;
       if (!section) return;
 
-      // Split each cta-word into character spans for per-letter reveal.
-      const wordEls = headingRef.current?.querySelectorAll<HTMLElement>(".cta-word");
-      const allChars: HTMLElement[] = [];
-      wordEls?.forEach((w) => {
-        const text = w.textContent ?? "";
-        w.textContent = "";
-        for (const ch of text) {
-          const outer = document.createElement("span");
-          outer.style.display = "inline-block";
-          outer.style.overflow = "hidden";
-          outer.style.lineHeight = "1";
-          outer.style.verticalAlign = "top";
-          const inner = document.createElement("span");
-          inner.style.display = "inline-block";
-          inner.style.willChange = "transform, filter, opacity";
-          inner.textContent = ch;
-          outer.appendChild(inner);
-          w.appendChild(outer);
-          allChars.push(inner);
-        }
-      });
+      const mm = gsap.matchMedia();
 
-      // ── Entrance timeline ───────────────────────────────────────────
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          trigger: section,
-          start: "top 80%",
-          toggleActions: "play none none reverse",
-        },
-      });
+      // ── Desktop: per-character 3D flip + blur (expensive but premium) ──
+      mm.add("(min-width: 768px) and (pointer: fine)", () => {
+        const wordEls = headingRef.current?.querySelectorAll<HTMLElement>(".cta-word");
+        const allChars: HTMLElement[] = [];
+        wordEls?.forEach((w) => {
+          const text = w.textContent ?? "";
+          w.textContent = "";
+          for (const ch of text) {
+            const outer = document.createElement("span");
+            outer.style.display = "inline-block";
+            outer.style.overflow = "hidden";
+            outer.style.lineHeight = "1";
+            outer.style.verticalAlign = "top";
+            const inner = document.createElement("span");
+            inner.style.display = "inline-block";
+            inner.style.willChange = "transform, filter, opacity";
+            inner.textContent = ch;
+            outer.appendChild(inner);
+            w.appendChild(outer);
+            allChars.push(inner);
+          }
+        });
 
-      // Initial states are handled by from() tweens in the timeline
+        const tl = gsap.timeline({
+          scrollTrigger: {
+            trigger: section,
+            start: "top 80%",
+            toggleActions: "play none none none",
+            once: true,
+          },
+        });
 
-      // 1. Label slides up
-      tl.from(labelRef.current, { opacity: 0, y: 12, ease: "power2.out", duration: 0.6 });
-
-      // 2. Heading — characters reveal with 3D flip + unblur, staggered
-      tl.from(
-        allChars,
-        {
-          yPercent: 120,
-          rotationX: -80,
-          opacity: 0,
-          filter: "blur(6px)",
-          ease: "expo.out",
-          duration: 1.2,
+        tl.from(labelRef.current, { opacity: 0, y: 12, ease: "power2.out", duration: 0.6 });
+        tl.from(allChars, {
+          yPercent: 120, rotationX: -80, opacity: 0,
+          filter: "blur(6px)", ease: "expo.out", duration: 1.2,
           stagger: { each: 0.012, from: "start" },
-        },
-        "-=0.3"
-      );
+        }, "-=0.3");
+        tl.from(paraRef.current, { opacity: 0, y: 16, ease: "power2.out", duration: 0.8 }, "-=0.4");
+        tl.from(buttonsRef.current, { opacity: 0, y: 18, ease: "expo.out", duration: 0.8 }, "-=0.3");
+      });
 
-      // 3. Para fades in after heading
-      tl.from(paraRef.current, { opacity: 0, y: 16, ease: "power2.out", duration: 0.8 }, "-=0.4");
-
-      // 4. Buttons
-      tl.from(buttonsRef.current, { opacity: 0, y: 18, ease: "expo.out", duration: 0.8 }, "-=0.3");
+      // ── Mobile / touch: simple fades, no split, no blur, no 3D ──
+      mm.add("(max-width: 767px), (pointer: coarse)", () => {
+        gsap.fromTo(
+          [labelRef.current, headingRef.current, paraRef.current, buttonsRef.current].filter(Boolean),
+          { opacity: 0, y: 20 },
+          {
+            opacity: 1, y: 0, duration: 0.8, stagger: 0.12, ease: "expo.out",
+            immediateRender: false,
+            scrollTrigger: {
+              trigger: section,
+              start: "top 85%",
+              toggleActions: "play none none none",
+              once: true,
+            },
+          }
+        );
+      });
     }, sectionRef);
 
     return () => ctx.revert();

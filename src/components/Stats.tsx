@@ -122,7 +122,7 @@ export default function Stats() {
       ref={sectionRef}
       id="stats"
       className="panel relative overflow-hidden"
-      style={{ background: "var(--bg-primary)" }}
+      style={{ background: "var(--bg-primary)", justifyContent: "flex-start" }}
     >
       {/* Top / bottom separator lines */}
       <div className="absolute top-0 left-0 right-0 h-[1px]" style={{ background: "rgba(255,255,255,0.07)" }} />

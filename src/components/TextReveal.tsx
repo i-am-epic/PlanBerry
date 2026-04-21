@@ -3,6 +3,7 @@
 import { useEffect, useRef, useCallback } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { textRevealBg } from "@/data/media";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -16,8 +17,7 @@ const WORDS = [
 const PARTICLE_COUNT = 80;
 const SCATTER_RADIUS = 180;
 
-const BG_IMAGE_URL =
-  "https://images.unsplash.com/photo-1501281668745-f7f57925c3b4?auto=format&fit=crop&w=900&q=70";
+const BG_IMAGE_URL = textRevealBg;
 
 type Particle = {
   el: HTMLDivElement;

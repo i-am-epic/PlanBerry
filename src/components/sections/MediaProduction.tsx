@@ -50,7 +50,7 @@ export default function MediaProductionSection() {
       ref={sectionRef}
       id="media-production"
       className="panel pb-section relative"
-      style={{ background: "var(--bg-primary)" }}
+      style={{ background: "var(--bg-primary)", justifyContent: "flex-start" }}
     >
       <div
         className="w-full"
@@ -119,9 +119,9 @@ export default function MediaProductionSection() {
           {mediaProduction.map((pillar) => (
             <div
               key={pillar.id}
-              className="mp-card group rounded-[8px] transition-all duration-500"
+              className="mp-card group rounded-[10px] transition-all duration-500"
               style={{
-                padding: "clamp(1.5rem, 2.5vw, 2.2rem)",
+                padding: "clamp(1.85rem, 2.8vw, 2.5rem)",
                 background: "var(--bg-card)",
                 border: "1px solid var(--border-subtle)",
               }}

@@ -149,7 +149,7 @@ export default function Testimonials() {
       ref={sectionRef}
       id="testimonials"
       className="panel relative overflow-hidden"
-      style={{ background: "var(--bg-primary)" }}
+      style={{ background: "var(--bg-primary)", justifyContent: "flex-start" }}
     >
       {/* ── Label: normal flow — stays at top when section is pinned ── */}
       <div
@@ -220,48 +220,62 @@ export default function Testimonials() {
         ))}
       </div>
 
-      {/* ── Mobile: vertical card stack ── */}
+      {/* ── Mobile: horizontal snap carousel ── */}
       <div
-        className="md:hidden flex flex-col items-center gap-6"
+        className="md:hidden flex flex-row gap-5 overflow-x-auto no-scrollbar snap-x snap-mandatory"
         style={{
           paddingLeft: "var(--pad-x)",
           paddingRight: "var(--pad-x)",
           paddingBottom: "clamp(3rem, 6vh, 4.5rem)",
+          scrollbarWidth: "none",
+          WebkitOverflowScrolling: "touch",
         }}
       >
         {testimonialsData.map((t) => (
           <div
             key={t.author}
-            className="testimonial-card rounded-[10px] p-7 flex flex-col justify-between w-full"
+            className="testimonial-card shrink-0 snap-center rounded-[12px] flex flex-col justify-between"
             style={{
               background: "var(--bg-card)",
               border: "1px solid var(--border-subtle)",
-              maxWidth: "min(92vw, 440px)",
-              minHeight: "260px",
+              padding: "clamp(1.75rem, 6vw, 2.25rem)",
+              width: "min(82vw, 360px)",
+              minHeight: "320px",
             }}
           >
             <blockquote
-              className="text-[0.95rem] leading-[1.8] mb-8"
               style={{
                 fontFamily: "var(--font-display)",
                 fontWeight: 400,
                 fontStyle: "italic",
+                fontSize: "1rem",
+                lineHeight: 1.75,
                 fontVariationSettings: "'SOFT' 80, 'WONK' 1",
-                color: "var(--accent-cream)",
+                color: "#ffffff",
+                marginBottom: "2rem",
               }}
             >
               &ldquo;{t.quote}&rdquo;
             </blockquote>
             <div>
               <p
-                className="text-sm"
-                style={{ fontFamily: "var(--font-body)", fontWeight: 500, color: "var(--accent-cream)" }}
+                style={{
+                  fontFamily: "var(--font-body)",
+                  fontWeight: 500,
+                  fontSize: "0.9rem",
+                  color: "#ffffff",
+                  marginBottom: "0.35rem",
+                }}
               >
                 {t.author}
               </p>
               <p
-                className="text-xs mt-1"
-                style={{ fontFamily: "var(--font-body)", fontWeight: 300, color: "var(--text-muted)" }}
+                style={{
+                  fontFamily: "var(--font-body)",
+                  fontWeight: 300,
+                  fontSize: "0.78rem",
+                  color: "rgba(255,255,255,0.6)",
+                }}
               >
                 {t.role}, {t.company}
               </p>

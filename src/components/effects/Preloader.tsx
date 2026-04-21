@@ -2,24 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
+import { heroVideoHLS, preloaderImages } from "@/data/media";
 
-const HERO_HLS_SRC =
-  "https://stream.mux.com/BLC6VVUBEBHvYTC7x02S5iULppqcdMmsUmGHVXq02y8W8.m3u8?max_resolution=1080p&min_resolution=720p";
-
-const WARMUP_IMAGES = [
-  "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=480&q=45",
-  "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=480&q=45",
-  "https://images.unsplash.com/photo-1519741497674-611481863552?w=480&q=45",
-  "https://images.unsplash.com/photo-1511578314322-379afb476865?w=480&q=45",
-  "https://images.unsplash.com/photo-1530023367847-a683933f4172?w=480&q=45",
-  "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=480&q=45",
-];
-
-const WARMUP_VIDEO_POSTERS = [
-  "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=480&q=45",
-  "https://images.unsplash.com/photo-1478146059778-26028b07395a?w=480&q=45",
-  "https://images.unsplash.com/photo-1549451371-64aa98a6f660?w=480&q=45",
-];
+const WARMUP_IMAGES = preloaderImages.slice(0, 6);
+const WARMUP_VIDEO_POSTERS = preloaderImages.slice(6);
 
 function warmImage(url: string) {
   return new Promise<void>((resolve) => {
@@ -67,7 +53,7 @@ export default function Preloader() {
     });
 
     const warmup = Promise.allSettled([
-      fetch(HERO_HLS_SRC, { mode: "no-cors" }).catch(() => undefined),
+      fetch(heroVideoHLS, { mode: "no-cors" }).catch(() => undefined),
       ...WARMUP_IMAGES.map((url) => warmImage(url)),
       ...WARMUP_VIDEO_POSTERS.map((url) => warmImage(url)),
     ]);

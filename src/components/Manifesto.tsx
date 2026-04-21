@@ -89,7 +89,7 @@ export default function Manifesto() {
       ref={sectionRef}
       id="about"
       className="panel relative overflow-hidden"
-      style={{ background: "var(--bg-primary)" }}
+      style={{ background: "var(--bg-primary)", justifyContent: "flex-start" }}
     >
       <div className="w-full" style={{ paddingLeft: "var(--pad-x)", paddingRight: "var(--pad-x)" }}>
         {/* data-speed: heading block drifts slower than principles grid for depth */}

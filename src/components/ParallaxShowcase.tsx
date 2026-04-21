@@ -4,21 +4,16 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { createPortal } from "react-dom";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { showcaseVideos, showcaseImages } from "@/data/media";
+import { INSTA_URL } from "@/data/reels";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Free stock videos — event/celebration themed, portrait-friendly with cover
-const eventVideos = [
-  "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerEscapes.mp4",
-  "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerJoyrides.mp4",
-  "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerBlazes.mp4",
-  "https://storage.googleapis.com/gtv-videos-bucket/sample/ForBiggerMeltdowns.mp4",
-  "https://storage.googleapis.com/gtv-videos-bucket/sample/SubaruOutbackOnStreetAndDirt.mp4",
-];
+const eventVideos = showcaseVideos;
 
 const showcaseItems = [
   {
-    image: "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=600&q=65",
+    image: showcaseImages[0],
     title: "The Meridian Gala",
     category: "Corporate",
     year: "2025",
@@ -28,7 +23,7 @@ const showcaseItems = [
     hashtags: ["#MeridianGala", "#CorporateEvents", "#BangaloreEvents"],
   },
   {
-    image: "https://images.unsplash.com/photo-1519741497674-611481863552?w=600&q=65",
+    image: showcaseImages[1],
     title: "Reddy–Sharma Wedding",
     category: "Celebration",
     year: "2025",
@@ -38,7 +33,7 @@ const showcaseItems = [
     hashtags: ["#ReddySharmaWedding", "#WeddingBangalore", "#LuxuryWedding"],
   },
   {
-    image: "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=600&q=65",
+    image: showcaseImages[2],
     title: "TechFlow Series A",
     category: "Launch",
     year: "2024",
@@ -48,7 +43,7 @@ const showcaseItems = [
     hashtags: ["#TechFlowLaunch", "#StartupIndia", "#BrandLaunchBangalore"],
   },
   {
-    image: "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=600&q=65",
+    image: showcaseImages[3],
     title: "Neon Arts Festival",
     category: "Cultural",
     year: "2024",
@@ -58,7 +53,7 @@ const showcaseItems = [
     hashtags: ["#NeonArtsFest", "#BangaloreArts", "#EventsBangalore"],
   },
   {
-    image: "https://images.unsplash.com/photo-1478146059778-26028b07395a?w=600&q=65",
+    image: showcaseImages[4],
     title: "The Grand Pavilion",
     category: "Private",
     year: "2024",
@@ -253,7 +248,7 @@ function InstaReel({ item, videoSrc, onClose }: { item: ShowcaseItem; videoSrc: 
 
           {/* Audio note */}
           <a
-            href="https://www.instagram.com/planberry_events"
+            href={INSTA_URL}
             target="_blank"
             rel="noopener noreferrer"
             className="w-10 h-10 rounded-[8px] overflow-hidden border-2 border-[rgba(255,255,255,0.3)]"

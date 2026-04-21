@@ -3,37 +3,13 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { photoStreamRow1, photoStreamRow2, photoStreamRow3 } from "@/data/media";
 
 gsap.registerPlugin(ScrollTrigger);
 
-// Three continuously scrolling rows of event imagery. Public Unsplash URLs so
-// nothing is stored client-side. Rows move opposite directions for depth.
-const row1 = [
-  "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=400&q=60",
-  "https://images.unsplash.com/photo-1511795409834-ef04bbd61622?w=400&q=60",
-  "https://images.unsplash.com/photo-1530023367847-a683933f4172?w=400&q=60",
-  "https://images.unsplash.com/photo-1464366400600-7168b8af9bc3?w=400&q=60",
-  "https://images.unsplash.com/photo-1505236858219-8359eb29e329?w=400&q=60",
-  "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=400&q=60",
-];
-
-const row2 = [
-  "https://images.unsplash.com/photo-1519741497674-611481863552?w=400&q=60",
-  "https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=400&q=60",
-  "https://images.unsplash.com/photo-1478146059778-26028b07395a?w=400&q=60",
-  "https://images.unsplash.com/photo-1511578314322-379afb476865?w=400&q=60",
-  "https://images.unsplash.com/photo-1549451371-64aa98a6f660?w=400&q=60",
-  "https://images.unsplash.com/photo-1469371670807-013ccf25f16a?w=400&q=60",
-];
-
-const row3 = [
-  "https://images.unsplash.com/photo-1469041797191-50ace28483c3?w=400&q=60",
-  "https://images.unsplash.com/photo-1515165562835-c3b8c8e4288d?w=400&q=60",
-  "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&q=60",
-  "https://images.unsplash.com/photo-1555244162-803834f70033?w=400&q=60",
-  "https://images.unsplash.com/photo-1523580494863-6f3031224c94?w=400&q=60",
-  "https://images.unsplash.com/photo-1533174072545-7a4b6ad7a6c3?w=400&q=60",
-];
+const row1 = photoStreamRow1;
+const row2 = photoStreamRow2;
+const row3 = photoStreamRow3;
 
 function Row({ images, reverse = false, speed = 40 }: { images: string[]; reverse?: boolean; speed?: number }) {
   return (

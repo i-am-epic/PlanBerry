@@ -4,11 +4,11 @@ import { useEffect, useRef, useState, useCallback } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import type HlsType from "hls.js";
+import { heroVideoHLS } from "@/data/media";
 
 gsap.registerPlugin(ScrollTrigger);
 
-const HLS_SRC =
-  "https://stream.mux.com/BLC6VVUBEBHvYTC7x02S5iULppqcdMmsUmGHVXq02y8W8.m3u8?max_resolution=1080p&min_resolution=720p";
+const HLS_SRC = heroVideoHLS;
 
 export default function Hero() {
   const sectionRef = useRef<HTMLElement>(null);

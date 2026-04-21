@@ -3,6 +3,7 @@
 import { useEffect, useRef } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { socialLinks } from "@/data/media";
 gsap.registerPlugin(ScrollTrigger);
 
 const footerNav = [
@@ -17,7 +18,7 @@ const footerNav = [
 const socials = [
   {
     label: "Instagram",
-    href: "https://www.instagram.com/planberry_events",
+    href: socialLinks.instagram,
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
         <rect x="2" y="2" width="20" height="20" rx="5" />
@@ -28,7 +29,7 @@ const socials = [
   },
   {
     label: "LinkedIn",
-    href: "https://www.linkedin.com/in/planberry-events-a18786404",
+    href: socialLinks.linkedin,
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5">
         <path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z" />
@@ -39,7 +40,7 @@ const socials = [
   },
   {
     label: "Facebook",
-    href: "https://www.facebook.com/share/1HRQxrmcUg/",
+    href: socialLinks.facebook,
     icon: (
       <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor">
         <path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.77-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.77l-.44 2.89h-2.33v6.99A10 10 0 0 0 22 12z" />

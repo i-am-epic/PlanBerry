@@ -3,6 +3,7 @@
 import { useEffect, useRef, useCallback } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { serviceImages } from "@/data/media";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -21,7 +22,7 @@ const services = [
       "Client Engagement",
       "AV & Technical Production",
     ],
-    image: "https://images.unsplash.com/photo-1540575467063-178a50c2df87?w=900&q=70",
+    image: serviceImages.corporate,
   },
   {
     title: "Social Celebrations",
@@ -37,7 +38,7 @@ const services = [
       "Photo & Videography",
       "Entertainment & FX",
     ],
-    image: "https://images.unsplash.com/photo-1519167758481-83f550bb49b3?w=900&q=70",
+    image: serviceImages.social,
   },
 ];
 
